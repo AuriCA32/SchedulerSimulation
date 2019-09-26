@@ -1,4 +1,4 @@
-import java.io.*;
+
 import java.util.*;
 
 
@@ -8,7 +8,7 @@ public class RbTree{
     private final int BLACK = 0; 
     private final int RED = 1;
 
-    private class Node{
+    public class Node{
 
         int key = -1, color = BLACK; 
         Node parent = nil, left = nil, right = nil; 
@@ -121,6 +121,152 @@ public class RbTree{
         y.right = x; 
         x.parent = y; 
     }
+
+
+    public Node search(int key){
+        Node y = nil;
+        Node x = this.root; 
+        while (x != nil){
+            y = x; 
+            if (x.key == key){
+                break; 
+            }
+            else if (x.key < key){
+                x = x.right; 
+            }else{
+                x = x.left;
+            }
+        }
+        return y; 
+
+    }
+
+
+    public Node minimun(Node n){
+        while(n.left != nil){
+            n = n.left; 
+        }
+        return n; 
+    }
+
+
+    private void transplant(Node u, Node v){
+        if (u.parent == nil){
+            this.root = v; 
+        }else if (u == u.parent.left){
+            u.parent.left = v;
+        }else{
+            u.parent.right = v; 
+        }
+        v.parent = u.parent; 
+    }
+
+
+
+    public Boolean delete(int key){
+        return delete(new Node(key));
+    }
+
+    public Boolean delete(Node z){
+        if ((z = search(z.key))== nil) return false;
+
+        Node x; 
+        Node y = z; 
+
+        int y_original_color = y.color;
+
+        if(z.left == nil){
+            x = z.right;  
+            transplant(z, z.right);  
+        }else if(z.right == nil){
+            x = z.left;
+            transplant(z, z.left); 
+        }else{
+            y = minimun(z.right);
+            y_original_color = y.color;
+            x = y.right;
+            if(y.parent == z)
+                x.parent = y;
+            else{
+                transplant(y, y.right);
+                y.right = z.right;
+                y.right.parent = y;
+            }
+            transplant(z, y);
+            y.left = z.left;
+            y.left.parent = y;
+            y.color = z.color; 
+        }
+        if(y_original_color==BLACK)
+            deleteFixup(x);  
+        return true;
+
+    }
+
+    private void deleteFixup(Node x){
+
+        while(x!=root && x.color == BLACK){ 
+            if(x == x.parent.left){
+                Node w = x.parent.right;
+                if(w.color == RED){
+                    w.color = BLACK;
+                    x.parent.color = RED;
+                    leftRotate(x.parent);
+                    w = x.parent.right;
+                }
+                if(w.left.color == BLACK && w.right.color == BLACK){
+                    w.color = RED;
+                    x = x.parent;
+                    continue;
+                }
+                else if(w.right.color == BLACK){
+                    w.left.color = BLACK;
+                    w.color = RED;
+                    rightRotate(w);
+                    w = x.parent.right;
+                }
+                if(w.right.color == RED){
+                    w.color = x.parent.color;
+                    x.parent.color = BLACK;
+                    w.right.color = BLACK;
+                    leftRotate(x.parent);
+                    x = root;
+                }
+            }else{
+                Node w = x.parent.left;
+                if(w.color == RED){
+                    w.color = BLACK;
+                    x.parent.color = RED;
+                    rightRotate(x.parent);
+                    w = x.parent.left;
+                }
+                if(w.right.color == BLACK && w.left.color == BLACK){
+                    w.color = RED;
+                    x = x.parent;
+                    continue;
+                }
+                else if(w.left.color == BLACK){
+                    w.right.color = BLACK;
+                    w.color = RED;
+                    leftRotate(w);
+                    w = x.parent.left;
+                }
+                if(w.left.color == RED){
+                    w.color = x.parent.color;
+                    x.parent.color = BLACK;
+                    w.left.color = BLACK;
+                    rightRotate(x.parent);
+                    x = root;
+                }
+            }
+        }
+        x.color = BLACK; 
+
+
+    }
+
+
+
 
     private String tabs(ArrayList<Boolean> b){
         String s = "";

@@ -14,7 +14,9 @@ public class Test{
         t.insert(9);
         t.insert(13);
         t.print();
-
+        t.delete(2);
+        t.delete(17);
+        t.print();
 
     }
 
