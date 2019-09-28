@@ -1,33 +1,30 @@
 
 import java.util.*;
 
-
-
 public class RbTree{
 
     private final int BLACK = 0; 
     private final int RED = 1;
 
-    public class Node{
+    private final Node nil = new Node(-1);
+    private Node root = nil;
 
+    private class Node{
         int key = -1, color = BLACK; 
         Node parent = nil, left = nil, right = nil; 
-    
+
         Node(int k){
             this.key = k; 
         }
     }
-
-    private final Node nil = new Node(-1);
-    private Node root = nil;
 
     public void insert(int key){
         insert(new Node(key));
     }
 
     public void insert(Node z){
-        Node y = nil; 
-        Node x = this.root; 
+        Node y = nil;
+        Node x = this.root;
         while (x != nil){
             y = x; 
             if (z.key < x.key){
@@ -38,8 +35,8 @@ public class RbTree{
         if (y == nil) this.root = z;
         else if (z.key < y.key) y.left = z;
         else y.right = z;
-        z.left = nil; 
-        z.right = nil;
+        // z.left = nil; 
+        // z.right = nil;
         z.color = RED; 
 
         fixup(z);
@@ -88,7 +85,6 @@ public class RbTree{
 
     }
 
-
     private void leftRotate(Node x){
         Node y = x.right; 
         x.right = y.left; 
@@ -109,11 +105,10 @@ public class RbTree{
         Node y = x.left; 
         x.left = y.right; 
         if (y.right != nil)
-            y.right.parent = x; 
-        
+            y.right.parent = x;
         y.parent = x.parent; 
         if (x.parent == nil)
-            root = y; 
+            this.root = y; 
         else if (x == x.parent.right)
             x.parent.right = y; 
         else x.parent.left = y; 
@@ -121,7 +116,6 @@ public class RbTree{
         y.right = x; 
         x.parent = y; 
     }
-
 
     public Node search(int key){
         Node y = nil;
@@ -137,10 +131,8 @@ public class RbTree{
                 x = x.left;
             }
         }
-        return y; 
-
+        return y;
     }
-
 
     public Node minimun(Node n){
         while(n.left != nil){
@@ -148,7 +140,6 @@ public class RbTree{
         }
         return n; 
     }
-
 
     private void transplant(Node u, Node v){
         if (u.parent == nil){
@@ -160,8 +151,6 @@ public class RbTree{
         }
         v.parent = u.parent; 
     }
-
-
 
     public Boolean delete(int key){
         return delete(new Node(key));
@@ -200,11 +189,9 @@ public class RbTree{
         if(y_original_color==BLACK)
             deleteFixup(x);  
         return true;
-
     }
 
     private void deleteFixup(Node x){
-
         while(x!=root && x.color == BLACK){ 
             if(x == x.parent.left){
                 Node w = x.parent.right;
@@ -260,14 +247,9 @@ public class RbTree{
                 }
             }
         }
-        x.color = BLACK; 
-
-
+        x.color = BLACK;
     }
-
-
-
-
+    
     private String tabs(ArrayList<Boolean> b){
         String s = "";
         for(int i = 0; i < b.size(); ++i){
@@ -304,7 +286,6 @@ public class RbTree{
     }
 
     public void print(){
-
         ArrayList<Boolean> b = new ArrayList<>();
         String s = this.show(this.root,b);
         System.out.println(s);
