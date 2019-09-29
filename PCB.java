@@ -1,0 +1,67 @@
+public class PCB {
+
+    // Estados posibles
+    // private final int READY = 0; 
+    // private final int RUNNING = 1;
+    // private final int BLOCKED = 2;
+
+    int PID, state, priority, curr_exec_t, total_execution_t, system_arrival_t, curr_cpu_cycles, total_cpu_cycles;
+    // operaciones y ciclos e/s (indica cuál dispositivo necesita en qué momento) -> definir (dict?)
+
+    // Getter PID
+    public int getPID() {
+        return PID;
+    }
+
+    // Getter state
+    public int getState() {
+        return state;
+    }
+
+    // Setter state
+    public void setState(int state) {
+        this.state = state;
+        // TODO: chequear que este entre los estados posibles
+    }
+
+    // Getter priority
+    public int getPriority() {
+        return priority;
+    }
+
+    // Getter current execution time
+    public int getCurrentExecT() {
+        return curr_exec_t;
+    }
+
+    // Setter current execution time
+    public void setCurrentExecT(int time) {
+        this.curr_exec_t = time;
+    }
+
+    // Getter total execution time
+    public int getTotalExecT() {
+        return total_execution_t;
+    }
+
+    // Getter system arrival time
+    public int getSystemArrivalT() {
+        return system_arrival_t;
+    }
+
+    // Getter current cpu cycles
+    public int getCurrentCPUCycles() {
+        return curr_cpu_cycles;
+    }
+
+    // Setter current cpu cycles
+    public void setCurrentCPUCycles(int time) {
+        this.curr_cpu_cycles = time;
+    }
+
+    // Getter total cpu cycles
+    public int getTotalCPUCycles() {
+        return total_cpu_cycles;
+    }
+
+}
