@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class PCB {
 
     // Estados posibles
@@ -5,8 +7,24 @@ public class PCB {
     // private final int RUNNING = 1;
     // private final int BLOCKED = 2;
 
-    int PID, state, priority, curr_exec_t, total_execution_t, system_arrival_t, curr_cpu_cycles, total_cpu_cycles;
-    // operaciones y ciclos e/s (indica cuál dispositivo necesita en qué momento) -> definir (dict?)
+    int PID, state, priority, curr_exec_t, total_execution_t, system_arrival_t;
+    int  curr_cpu_cycles, total_cpu_cycles;
+    // nro dispositivo, [en qué momento de su ejecución usa el dispositivo, total ciclos e/s, current ciclos e/s]
+    // esto asumiendo que tenemos mas de un dispositivo de e/s
+    HashMap<Integer, Integer[]> io_operations;
+
+    public PCB(int PID, int state, int priority, int curr_exec_t, int total_execution_t, int system_arrival_t,
+        int curr_cpu_cycles, int total_cpu_cycles, HashMap<Integer, Integer[]> io_operations){
+        this.PID = PID;
+        this.state = state;
+        this.priority = priority;
+        this.curr_exec_t = curr_exec_t;
+        this.total_execution_t = total_execution_t;
+        this.system_arrival_t = system_arrival_t;
+        this.curr_cpu_cycles = curr_cpu_cycles;
+        this.total_cpu_cycles = total_cpu_cycles;
+        this.io_operations = io_operations;
+    }
 
     // Getter PID
     public int getPID() {
