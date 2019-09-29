@@ -10,7 +10,8 @@ public class RbTree{
     private Node root = nil;
 
     private class Node{
-        int key = -1, color = BLACK; 
+        int key = -1, color = BLACK; // Key == priority
+        int PID; // Process PID
         Node parent = nil, left = nil, right = nil; 
 
         Node(int k){
