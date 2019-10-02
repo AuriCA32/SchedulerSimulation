@@ -17,7 +17,7 @@ public class ProcessTable {
         return false;
     }
 
-    public void print(){
+    public synchronized void print(){
         String s="";
         table.values().forEach(pcb -> s+=pcb.toString()+"\n");
         System.out.println(s);
