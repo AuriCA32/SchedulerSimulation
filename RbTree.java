@@ -19,11 +19,11 @@ public class RbTree{
         }
     }
 
-    public void insert(int key){
+    public synchronized void insert(int key){
         insert(new Node(key));
     }
 
-    public void insert(Node z){
+    public synchronized void insert(Node z){
         Node y = nil;
         Node x = this.root;
         while (x != nil){
@@ -44,7 +44,7 @@ public class RbTree{
 
     }
 
-    private void fixup(Node z){
+    private synchronized void fixup(Node z){
 
         while (z.parent.color == RED){
             Node y = nil;
@@ -86,7 +86,7 @@ public class RbTree{
 
     }
 
-    private void leftRotate(Node x){
+    private synchronized void leftRotate(Node x){
         Node y = x.right; 
         x.right = y.left; 
         if (y.left != nil)
@@ -102,7 +102,7 @@ public class RbTree{
         x.parent = y; 
     }
 
-    private void rightRotate(Node x){
+    private synchronized void rightRotate(Node x){
         Node y = x.left; 
         x.left = y.right; 
         if (y.right != nil)
@@ -118,7 +118,7 @@ public class RbTree{
         x.parent = y; 
     }
 
-    public Node search(int key){
+    public synchronized Node search(int key){
         Node y = nil;
         Node x = this.root; 
         while (x != nil){
@@ -135,14 +135,14 @@ public class RbTree{
         return y;
     }
 
-    public Node minimun(Node n){
+    public synchronized Node minimun(Node n){
         while(n.left != nil){
             n = n.left; 
         }
         return n; 
     }
 
-    private void transplant(Node u, Node v){
+    private synchronized void transplant(Node u, Node v){
         if (u.parent == nil){
             this.root = v; 
         }else if (u == u.parent.left){
@@ -153,11 +153,11 @@ public class RbTree{
         v.parent = u.parent; 
     }
 
-    public Boolean delete(int key){
+    public synchronized Boolean delete(int key){
         return delete(new Node(key));
     }
 
-    public Boolean delete(Node z){
+    public synchronized Boolean delete(Node z){
         if ((z = search(z.key))== nil) return false;
 
         Node x; 
@@ -192,7 +192,7 @@ public class RbTree{
         return true;
     }
 
-    private void deleteFixup(Node x){
+    private synchronized void deleteFixup(Node x){
         while(x!=root && x.color == BLACK){ 
             if(x == x.parent.left){
                 Node w = x.parent.right;
@@ -264,7 +264,7 @@ public class RbTree{
         return s;
     }
 
-    private String show(Node x, ArrayList<Boolean> b){
+    private synchronized String show(Node x, ArrayList<Boolean> b){
         String s = "";
         if (x != null) {
             s += "[" + Integer.toString(x.key) + ": " + Integer.toString(x.color) + "]\n";
@@ -286,7 +286,7 @@ public class RbTree{
         return s;
     }
 
-    public void print(){
+    public synchronized void print(){
         ArrayList<Boolean> b = new ArrayList<>();
         String s = this.show(this.root,b);
         System.out.println(s);
