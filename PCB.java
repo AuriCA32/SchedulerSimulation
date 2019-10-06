@@ -6,6 +6,7 @@ public class PCB {
     // private final int READY = 0; 
     // private final int RUNNING = 1;
     // private final int BLOCKED = 2;
+    // private final int TERMINATED = 3;
 
     int PID, state, priority, curr_exec_t, total_execution_t, system_arrival_t;
     int  curr_cpu_cycles, total_cpu_cycles;
