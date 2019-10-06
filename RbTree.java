@@ -9,18 +9,19 @@ public class RbTree{
     private final Node nil = new Node(-1);
     private Node root = nil;
 
-    private class Node{
+    public class Node{
         int key = -1, color = BLACK; // Key == priority
         int PID; // Process PID
         Node parent = nil, left = nil, right = nil; 
 
-        Node(int k){
-            this.key = k; 
+        Node(int k, int PID){
+            this.key = k;
+            this.PID = PID;
         }
     }
 
-    public synchronized void insert(int key){
-        insert(new Node(key));
+    public synchronized void insert(int key, int PID){
+        insert(new Node(key, PID));
     }
 
     public synchronized void insert(Node z){
@@ -118,12 +119,12 @@ public class RbTree{
         x.parent = y; 
     }
 
-    public synchronized Node search(int key){
+    public synchronized Node search(int key, int PID){
         Node y = nil;
         Node x = this.root; 
         while (x != nil){
             y = x; 
-            if (x.key == key){
+            if (x.key == key && x.PID == PID){
                 break; 
             }
             else if (x.key < key){
@@ -153,12 +154,12 @@ public class RbTree{
         v.parent = u.parent; 
     }
 
-    public synchronized Boolean delete(int key){
-        return delete(new Node(key));
+    public synchronized Boolean delete(int key, int PID){
+        return delete(new Node(key, PID));
     }
 
     public synchronized Boolean delete(Node z){
-        if ((z = search(z.key))== nil) return false;
+        if ((z = search(z.key, z.PID))== nil) return false;
 
         Node x; 
         Node y = z; 
