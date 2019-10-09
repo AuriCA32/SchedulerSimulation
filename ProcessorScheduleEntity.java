@@ -1,7 +1,7 @@
 public class ProcessorScheduleEntity{
     
     public RbTree tasks_timeline;
-    public Node rb_leftmost, current;
+    public RbTree.RbNode rb_leftmost, current;
 
     int tasks_count, running_tasks_count, min_vruntime;
     // Blocked processes by I/O hash map <PID, priority> -> for insertionin tree
