@@ -184,7 +184,6 @@ public class Runqueue{
     int io_wait_tasks_count; // Number of processes that are now waiting for a disk I/O operation to complete
     // struct sched_domain sd;
     Boolean active_balance; // Flag set if some process shall be migrated from this runqueue to another (runqueue balancing)
-    // TODO: atributos para manejar IO y blocked processes -> puede ser como en schedule entity
 
     Runqueue(){
         this.runnable_tasks_count = 0;
@@ -256,3 +255,13 @@ public class Runqueue{
     }
 
 }
+
+// public class SchedulingDomain{
+
+//     LinkedList<CPU> cpu_list;
+
+//     SchedulingDomain(){
+//         this.cpu_list = new LinkedList<CPU>();
+//     }
+
+// }
