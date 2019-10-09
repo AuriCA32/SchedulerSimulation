@@ -47,35 +47,140 @@ public class PrioArray{
 
 public class ProcessDescriptor{
 
+    // Tabla 7-5 p.269
+    int PID;
     int cpu; // Logical number of the CPU owning the runqueue to which the process belongs
     int state; // Estados posibles READY = 0, RUNNING = 1, BLOCKED = 2, TERMINATED = 3;
     int prio; // Priority -- TODO: definir si habra estatica y dinamica
-    // LinkedList<> run_list; // Pointers to the next and prev elements in the runqueue list to which the process belongs
-    // PrioArray prio_array; // PrioArray that includes the process
+    LinkedList<ProcessDescriptor> run_list; // Pointers to the next and prev elements in the runqueue list to which the process belongs
+    PrioArray prio_array; // PrioArray of the Runqueue that includes the process
+    int sleep_avg; // Average sleep time of the process *
+    int timestamp; // Time of last insertion of the process in the runqueue, or time of last process switch involving the process
+    int last_ran; // Time of last process switch that replaced the process
     int time_slice; // Ticks left in the time quantum of the process
     int first_time_slice; // Flag, 1 if the process never exhausted its time quantum
 
-    ProcessDescriptor(int cpu, int prio){
-        this.cpu=cpu;
+    ProcessDescriptor(int PID, int prio){
+        // El resto de los atributos se setean al asignarlo a un CPU
+        this.PID=PID;
         this.prio=prio;
     }
 
-    // Faltan setters y getters
+    // Getter cpu
+    public int getCpu() {
+        return cpu;
+    }
+
+    // Setter cpu
+    public void setCpu(int cpu) {
+        this.cpu = cpu;
+    }
+
+    // Getter state
+    public int getState() {
+        return state;
+    }
+
+    // Setter state
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    // Getter prio
+    public int getPrio() {
+        return prio;
+    }
+
+    // Setter prio
+    public void setPrio(int prio) {
+        this.prio = prio;
+    }
+
+    // Getter run_list
+    public LinkedList<ProcessDescriptor> getRunList(){
+        return run_list;
+    }
+
+    // Setter run_list
+    public void setRunList(ProcessDescriptor prev, ProcessDescriptor next){
+        this.run_list.set(0, prev);
+        this.run_list.set(1, next);
+    }
+
+    // Getter prio_array
+    public int getPrioArray() {
+        return prio_array;
+    }
+
+    // Setter prio_array
+    public void setPrioArray(PrioArray prio_array) {
+        this.prio_array = prio_array;
+    }
+
+    // Getter sleep_avg
+    public int getSleepAvg() {
+        return sleep_avg;
+    }
+
+    // Setter sleep_avg
+    public void setSleepAvg(int sleep_avg) {
+        this.sleep_avg = sleep_avg;
+    }
+
+    // Getter timestamp
+    public int getTimestamp() {
+        return timestamp;
+    }
+
+    // Setter timestamp
+    public void setTimestamp(int timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    // Getter last_ran
+    public int getLastRan() {
+        return last_ran;
+    }
+
+    // Setter last_ran
+    public void setLastRan(int last_ran) {
+        this.last_ran = last_ran;
+    }
+
+    // Getter time_slice
+    public int getTimeSlice() {
+        return time_slice;
+    }
+
+    // Setter time_slace
+    public void setTimeSlace(int time_slice) {
+        this.time_slice = time_slice;
+    }
+
+    // Getter first_time_slice
+    public int getFirstTimeSlice() {
+        return first_time_slice;
+    }
+
+    // Setter first_time_slace
+    public void setFirstTimeSlace(int first_time_slice) {
+        this.first_time_slice = first_time_slice;
+    }
 
 }
 
-public class Runqueu{
+public class Runqueue{
 
     // Atributos de la tabla 7-4 p.267
     int runnable_tasks_count, cpu_load, timestamp_last_tick;
-    Node current; // Deberia ser task_t
+    ProcessDescriptor current; // Deberia ser task_t
     // prio_array_t active, expired;
     // prio_array_t[2] arrays;
     // atomic_t io_wait_tasks;
     // struct sched_domain sd;
     // int active_balance si vamos a hacer runqueue balancing
 
-    Runqueu(){
+    Runqueue(){
         
     }
 
