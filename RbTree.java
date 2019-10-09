@@ -6,7 +6,7 @@ public class RbTree{
     private final int BLACK = 0; 
     private final int RED = 1;
 
-    private final Node nil = new Node(-1);
+    private final Node nil = new Node(-1, -1);
     private Node root = nil;
 
     public class Node{
