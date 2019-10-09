@@ -77,19 +77,18 @@ public class PCB {
         return total_cpu_cycles;
     }
 
-    public void toString(){
+    public String toString(){
         String s="";
-        s+="Process: "+Integer.toString(this.PID)
-        s+="\tState: "Integer.toString(this.state)+"\n"
-        s+="\tPriority: "Integer.toString(this.priority)+"\n"
-        s+="\tCurrent execution time: "Integer.toString(this.curr_exec_t)+"\n"
-        s+="\tTotal execution time: "Integer.toString(this.total_execution_t)+"\n"
-        s+="\tSystem arrival time: "Integer.toString(this.system_arrival_t)+"\n"
-        s+="\tCurrent CPU cycles: "Integer.toString(this.curr_cpu_cycles)+"\n"
-        s+="\tTotal CPU cycles: "Integer.toString(this.total_cpu_cycles)+"\n"
-        s+="\tI/O Operations: "this.io_operations.toString()+"\n"
+        s+="Process: "+Integer.toString(this.PID); 
+        s+="\tState: " + Integer.toString(this.state)+"\n"; 
+        s+="\tPriority: " + Integer.toString(this.priority)+"\n"; 
+        s+="\tCurrent execution time: " + Integer.toString(this.curr_exec_t)+"\n"; 
+        s+="\tTotal execution time: "  + Integer.toString(this.total_execution_t)+"\n"; 
+        s+="\tSystem arrival time: " + Integer.toString(this.system_arrival_t)+"\n"; 
+        s+="\tCurrent CPU cycles: " + Integer.toString(this.curr_cpu_cycles)+"\n"; 
+        s+="\tTotal CPU cycles: " + Integer.toString(this.total_cpu_cycles)+"\n"; 
+        s+="\tI/O Operations: " + this.io_operations.toString()+"\n"; 
         return s;
-        // System.out.println(s);
     }
 
 }

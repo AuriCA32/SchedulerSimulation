@@ -6,27 +6,29 @@ public class RbTree{
     private final int BLACK = 0; 
     private final int RED = 1;
 
-    private final Node nil = new Node(-1);
-    private Node root = nil;
+    
 
-    public class Node{
+    public class RbNode{
         int key = -1, color = BLACK; // Key == priority
         int PID; // Process PID
-        Node parent = nil, left = nil, right = nil; 
+        RbNode parent = nil, left = nil, right = nil; 
 
-        Node(int k, int PID){
+        RbNode(int k, int PID){
             this.key = k;
             this.PID = PID;
         }
     }
 
+    private final RbNode nil = new RbNode(-1,-1);
+    private RbNode root = nil;
+
     public synchronized void insert(int key, int PID){
-        insert(new Node(key, PID));
+        insert(new RbNode(key, PID));
     }
 
-    public synchronized void insert(Node z){
-        Node y = nil;
-        Node x = this.root;
+    public synchronized void insert(RbNode z){
+        RbNode y = nil;
+        RbNode x = this.root;
         while (x != nil){
             y = x; 
             if (z.key < x.key){
@@ -45,10 +47,10 @@ public class RbTree{
 
     }
 
-    private synchronized void fixup(Node z){
+    private synchronized void fixup(RbNode z){
 
         while (z.parent.color == RED){
-            Node y = nil;
+            RbNode y = nil;
             if (z.parent == z.parent.parent.left){
                 y = z.parent.parent.right; 
                 if (y != nil && y.color == RED){
@@ -87,8 +89,8 @@ public class RbTree{
 
     }
 
-    private synchronized void leftRotate(Node x){
-        Node y = x.right; 
+    private synchronized void leftRotate(RbNode x){
+        RbNode y = x.right; 
         x.right = y.left; 
         if (y.left != nil)
             y.left.parent = x; 
@@ -103,8 +105,8 @@ public class RbTree{
         x.parent = y; 
     }
 
-    private synchronized void rightRotate(Node x){
-        Node y = x.left; 
+    private synchronized void rightRotate(RbNode x){
+        RbNode y = x.left; 
         x.left = y.right; 
         if (y.right != nil)
             y.right.parent = x;
@@ -119,9 +121,9 @@ public class RbTree{
         x.parent = y; 
     }
 
-    public synchronized Node search(int key, int PID){
-        Node y = nil;
-        Node x = this.root; 
+    public synchronized RbNode search(int key, int PID){
+        RbNode y = nil;
+        RbNode x = this.root; 
         while (x != nil){
             y = x; 
             if (x.key == key && x.PID == PID){
@@ -136,14 +138,14 @@ public class RbTree{
         return y;
     }
 
-    public synchronized Node minimun(Node n){
+    public synchronized RbNode minimun(RbNode n){
         while(n.left != nil){
             n = n.left; 
         }
         return n; 
     }
 
-    private synchronized void transplant(Node u, Node v){
+    private synchronized void transplant(RbNode u, RbNode v){
         if (u.parent == nil){
             this.root = v; 
         }else if (u == u.parent.left){
@@ -155,14 +157,14 @@ public class RbTree{
     }
 
     public synchronized Boolean delete(int key, int PID){
-        return delete(new Node(key, PID));
+        return delete(new RbNode(key, PID));
     }
 
-    public synchronized Boolean delete(Node z){
+    public synchronized Boolean delete(RbNode z){
         if ((z = search(z.key, z.PID))== nil) return false;
 
-        Node x; 
-        Node y = z; 
+        RbNode x; 
+        RbNode y = z; 
 
         int y_original_color = y.color;
 
@@ -193,10 +195,10 @@ public class RbTree{
         return true;
     }
 
-    private synchronized void deleteFixup(Node x){
+    private synchronized void deleteFixup(RbNode x){
         while(x!=root && x.color == BLACK){ 
             if(x == x.parent.left){
-                Node w = x.parent.right;
+                RbNode w = x.parent.right;
                 if(w.color == RED){
                     w.color = BLACK;
                     x.parent.color = RED;
@@ -222,7 +224,7 @@ public class RbTree{
                     x = root;
                 }
             }else{
-                Node w = x.parent.left;
+                RbNode w = x.parent.left;
                 if(w.color == RED){
                     w.color = BLACK;
                     x.parent.color = RED;
@@ -265,7 +267,7 @@ public class RbTree{
         return s;
     }
 
-    private synchronized String show(Node x, ArrayList<Boolean> b){
+    private synchronized String show(RbNode x, ArrayList<Boolean> b){
         String s = "";
         if (x != null) {
             s += "[" + Integer.toString(x.key) + ": " + Integer.toString(x.color) + "]\n";
