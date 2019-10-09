@@ -47,8 +47,16 @@ public class Test{
         io_operations.put(1, new Integer[] {8,2,0});
         PCB process_0 = new PCB(0, 100, 0, io_operations);
         System.out.println(process_0.toString());
+        // System.out.println(process_0.getPID());
+        // System.out.println(process_0.getCurrentExecT());
+        // process_0.setCurrentExecT(5);
+        // System.out.println(process_0.getTotalExecT());
+        // System.out.println(process_0.getSystemArrivalT());
+        // System.out.println(process_0.toString());
         PCB process_1 = new PCB(1, 150, 0, io_operations);
+        System.out.println(process_1.toString());
         PCB process_2 = new PCB(2, 250, 0, io_operations);
+        System.out.println(process_2.toString());
         // Process table
     }
 

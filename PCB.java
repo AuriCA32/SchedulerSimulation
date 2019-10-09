@@ -49,7 +49,7 @@ public class PCB {
         s+="\tSystem arrival time: "+Integer.toString(this.system_arrival_t)+"\n";
         s+="\tI/O Operations:\n";
         for (Integer dispositivo: this.io_operations.keySet()){
-            s+="\t\t<Dispositivo "+Integer.toString(dispositivo)+ ", " +Arrays.toString(this.io_operations.get(dispositivo))+">\n";
+            s+="\t\t<Device "+Integer.toString(dispositivo)+ ", " +Arrays.toString(this.io_operations.get(dispositivo))+">\n";
         }
         return s;
     }
