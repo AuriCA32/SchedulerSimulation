@@ -172,63 +172,87 @@ public class ProcessDescriptor{
 public class Runqueue{
 
     // Atributos de la tabla 7-4 p.267
-    int runnable_tasks_count, cpu_load, timestamp_last_tick;
-    ProcessDescriptor current; // Deberia ser task_t
-    // prio_array_t active, expired;
-    // prio_array_t[2] arrays;
-    // atomic_t io_wait_tasks;
+    int runnable_tasks_count; // Number of runnable processes in the runqueue lists
+    int cpu_load; // CPU load factor based on the average number of processes in the runqueue
+    int task_switches; // Number of process switches performed by the CPU
+    int expired_timestamp; // Insertion time of the eldest process in the expired lists
+    int timestamp_last_tick; // Timestamp value of the last timer interrupt
+    ProcessDescriptor current;
+    PrioArray active; // Active processes
+    PrioArray expired; // Expired processes
+    int best_expired_prio; // The best static priority (lowest value) among the expired processes
+    int io_wait_tasks_count; // Number of processes that are now waiting for a disk I/O operation to complete
     // struct sched_domain sd;
-    // int active_balance si vamos a hacer runqueue balancing
+    Boolean active_balance; // Flag set if some process shall be migrated from this runqueue to another (runqueue balancing)
+    // TODO: atributos para manejar IO y blocked processes -> puede ser como en schedule entity
 
     Runqueue(){
-        
+        this.runnable_tasks_count = 0;
+        this.cpu_load = 0;
+        this.task_switches = 0;
+        this.expired_timestamp = -1;
+        this.timestamp_last_tick = -1;
+        this.current = null;
+        this.active = new PrioArray();
+        this.expired = new PrioArray();
+        this.best_expired_prio = -1;
+        this.io_wait_tasks_count = 0;
+        this.active_balance = false;
     }
 
-    // Getter tasks_count
-    public int getTasksCount() {
-        return tasks_count;
+    // Getter runnable_tasks_count
+    public int getRunnableTasksCount() {
+        return runnable_tasks_count;
     }
 
-    // Getter running_tasks_count
-    public int getRunningTasksCount() {
-        return running_tasks_count;
+    // Getter cpu_load
+    public int getCpuLoad() {
+        return cpu_load;
     }
 
-    // Getter min_vruntime
-    public int getMinVRuntime() {
-        return min_vruntime;
+    // Getter task_switches
+    public int getTaskSwitches() {
+        return task_switches;
     }
 
-    public void addNewProcess(int priority, int PID){
-        tasks_timeline.insert(priority, PID);
-        tasks_count++;
-        running_tasks_count++;
-        // Check if new process is minvruntime?
+    // Getter expired_timestamp
+    public int getExpiredTimestamp() {
+        return expired_timestamp;
     }
 
-    public Boolean blockProcess(int priority, int PID){
-        Boolean deleted = tasks_timeline.delete(priority, PID);
-        if(deleted){
-            blocked.put(PID, priority);
-            running_tasks_count--;
-            // Agregar al priority queue del I/O device -> en el codigo del hilo del procesador
-        }
-        return deleted;
+    // Getter timestamp_last_tick
+    public int getTimestampLastTick() {
+        return timestamp_last_tick;
     }
 
-    public void unblockProcess(int PID){
-        int priority = blocked.remove(PID);
-        tasks_timeline.insert(priority, PID);
-        running_tasks_count++;
-        // Check if new process is minvruntime?
+    // Getter current
+    public ProcessDescriptor getCurrent() {
+        return current;
     }
 
-    public Boolean terminateProcess(){
-        Boolean deleted = tasks_timeline.delete(priority, PID);
-        if(deleted){
-            tasks_count--;
-            running_tasks_count--;
-        }
-        return deleted;
+    // Getter active
+    public PrioArray getActive() {
+        return active;
     }
+
+    // Getter expired
+    public PrioArray getExpired() {
+        return expired;
+    }
+
+    // Getter best_expired_prio
+    public int getBestExpiredPrio() {
+        return best_expired_prio;
+    }
+
+    // Getter io_wait_tasks_count
+    public int getIOWaitTasksCount() {
+        return io_wait_tasks_count;
+    }
+
+    // Getter active_balance
+    public Boolean getActiveBalance() {
+        return active_balance;
+    }
+
 }
