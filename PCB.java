@@ -47,7 +47,10 @@ public class PCB {
         s+="\tCurrent execution time: "+Integer.toString(this.curr_exec_t)+"\n";
         s+="\tTotal execution time: "+Integer.toString(this.total_execution_t)+"\n";
         s+="\tSystem arrival time: "+Integer.toString(this.system_arrival_t)+"\n";
-        s+="\tI/O Operations: "+this.io_operations.toString()+"\n";
+        s+="\tI/O Operations:\n";
+        for (Integer dispositivo: this.io_operations.keySet()){
+            s+="\t\t<Dispositivo "+Integer.toString(dispositivo)+ ", " +Arrays.toString(this.io_operations.get(dispositivo))+">\n";
+        }
         return s;
     }
 
