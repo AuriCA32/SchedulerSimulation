@@ -4,36 +4,24 @@ import java.util.*;
 public class Runqueue{
 
     // Atributos de la tabla 7-4 p.267
-    int runnable_tasks_count;
-    int cpu_load;
-    int timestamp_last_tick;
-    RbTree.RbNode current;
-    
-    
-    // Deberia ser task_t
-    // prio_array_t active, expired;
-    // prio_array_t[2] arrays;
-    // atomic_t io_wait_tasks;
-    // struct sched_domain sd;
-    // int active_balance si vamos a hacer runqueue balancing
+
+    public long nr_running; 
+    public long cp_load; 
+    public long nr_switches; 
+
+    public long timestamp_last_tick;
+    public Task curr; 
+    public PrioArray active; 
+    public PrioArray expired; 
+    public PrioArray [] arrays; 
+    public int nr_iowait; 
+    public int active_balance; 
+
+    public Task migration_thread; 
+    public LinkedList<Task> migration_queue; 
 
     Runqueue(){
         
-    }
-
-    // Getter tasks_count
-    public int getTasksCount() {
-        return tasks_count;
-    }
-
-    // Getter running_tasks_count
-    public int getRunningTasksCount() {
-        return running_tasks_count;
-    }
-
-    // Getter min_vruntime
-    public int getMinVRuntime() {
-        return min_vruntime;
     }
 
     public void addNewProcess(int priority, int PID){

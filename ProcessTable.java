@@ -1,10 +1,10 @@
 import java.util.*;
 
 public class ProcessTable {
-    private HashMap<Integer, PCB> table; // <PID, PCB>
+    private HashMap<Integer, Task> table; // <PID, PCB>
 
-    public synchronized PCB getProcess(int PID){ //No estoy segura si debe sere synchronized
-        return table.get(PID);
+    public synchronized PCB getProcess(int pid){ //No estoy segura si debe sere synchronized
+        return table.get(pid);
     }
 
     public synchronized void addProcess(int PID, PCB process){
