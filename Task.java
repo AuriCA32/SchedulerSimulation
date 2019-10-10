@@ -7,21 +7,15 @@ public class Task{
     private final int TASK_INTERRUPTIBLE = 2; 
     private final int TASK_UNINTERRUPTIBLE = 3;
     private final int TASK_STOPPED = 4; 
-    private final int EXIT_ZOMBIE = 5;
+    private final int TASK_BLOCKED = 5;
     private final int EXIT_DEAD = 6; 
 
-
     private final int PIDTYPE_MAX = 4;
-
-
     
     public int pid; 
 
     /* -1 unrunnable, 0 runnable, >0 stopped;  */
-    public long state;  
-
-    
-
+    public long state;
     /* SMP configuration members  */
     
     /* Current CPU  */
