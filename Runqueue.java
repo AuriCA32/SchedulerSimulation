@@ -1,7 +1,5 @@
 import java.util.*;
 
-
-
 public class Runqueue{
 
     // Atributos de la tabla 7-4 p.267

@@ -17,15 +17,15 @@ public class PrioArray{
     }
 
     public void enqueueTask(Task p){
-        this.queue[p.getPrio()].add(p);
-        setBit(p.getPrio());
+        int priority = p.getPrio();
+        this.queue[priority].add(p);
+        setBit(priority);
         this.nr_active++;
         p.setArray(this);
-
     }
 
     public void dequeue_task(Task p){
-        int priority = p.prio;
+        int priority = p.getPrio();
         // Check if task was last on list
         LinkedList<Task> list = this.queue[priority];
         list.remove(p);

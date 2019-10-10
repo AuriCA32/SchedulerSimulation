@@ -21,9 +21,9 @@ public class ProcessTable {
         return false;
     }
 
-    // public synchronized void print(){
-    //     String s="";
-    //     table.values().forEach(pcb -> s+=pcb.toString()+"\n");
-    //     System.out.println(s);
-    // }
+    public synchronized void print(){
+        String s="";
+        table.values().forEach(pcb -> s+=pcb.toString()+"\n");
+        return s;
+    }
 }
