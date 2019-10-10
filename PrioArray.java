@@ -6,8 +6,6 @@ public class PrioArray{
     private BitSet bitmap; // Priority bitmap -> 1 if the priority list is not empty
     private LinkedList<Task> [] queue ; // The 140 heads of the priority lists
 
-
-
     PrioArray(){
         this.bitmap = new BitSet(140);
         this.queue =  new LinkedList[140];
@@ -19,7 +17,6 @@ public class PrioArray{
     }
 
     public void enqueueTask(Task p){
-
         this.queue[p.getPrio()].add(p);
         setBit(p.getPrio());
         this.nr_active++;
@@ -32,8 +29,9 @@ public class PrioArray{
         // Check if task was last on list
         LinkedList<Task> list = this.queue[priority];
         list.remove(p);
-        this.bitmap.set(priority, false);
-        
+        if (list.isEmpty()){
+            this.bitmap.set(priority, false);
+        }
         nr_active--;
     }
 
