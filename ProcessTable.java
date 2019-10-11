@@ -3,11 +3,11 @@ import java.util.*;
 public class ProcessTable {
     private HashMap<Integer, Task> table; // <PID, PCB>
 
-    public synchronized Task getProcess(int pid){
+    public synchronized Task getTask(int pid){
         return table.get(pid);
     }
 
-    public synchronized Boolean addProcess(int pid, Task p){
+    public synchronized Boolean addTask(int pid, Task p){
         if (table.get(pid)!= null){
             return false;
         }
@@ -15,13 +15,13 @@ public class ProcessTable {
         return true;
     }
 
-    public synchronized Boolean removeProcess(int pid){
+    public synchronized Boolean removeTask(int pid){
         Task process = table.remove(pid);
         if (process!=null) return true;
         return false;
     }
 
-    public synchronized void print(){
+    public synchronized string toString(){
         String s="";
         table.values().forEach(pcb -> s+=pcb.toString()+"\n");
         return s;
