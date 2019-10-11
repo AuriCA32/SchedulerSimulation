@@ -122,20 +122,22 @@ public class Test{
         // new ThreadTest(t, 0);
         // new ThreadTest(t, 1);
         // Prueba PCB
-        HashMap<Integer, Integer[]> io_operations = new HashMap<Integer, Integer[]>();
-        io_operations.put(0, new Integer[] {5,1,0});
-        io_operations.put(1, new Integer[] {8,2,0});
-        Task task_0 = new Task(0, 0, 100, 0, io_operations);
+        // HashMap<Integer, Integer[]> io_operations = new HashMap<Integer, Integer[]>();
+        // io_operations.put(0, new Integer[] {5,1,0});
+        // io_operations.put(1, new Integer[] {8,2,0});
+        // Task task_0 = new Task(0, 0, 100, 0, io_operations);
         // System.out.println(task_0.toString());
-        Task task_1 = new Task(1, 1, 150, 0, io_operations);
+        // Task task_1 = new Task(1, 1, 150, 0, io_operations);
         // System.out.println(task_1.toString());
-        Task task_2 = new Task(2, 2, 250, 0, io_operations);
+        // Task task_2 = new Task(2, 2, 250, 0, io_operations);
         // System.out.println(task_2.toString());
         // Process table
-        ProcessTable table = new ProcessTable();
-        new ThreadProcessTableTest(table, 0, task_0);
-        new ThreadProcessTableTest(table, 1, task_1);
-        new ThreadProcessTableTest(table, 2, task_2);
+        // ProcessTable table = new ProcessTable();
+        // new ThreadProcessTableTest(table, 0, task_0);
+        // new ThreadProcessTableTest(table, 1, task_1);
+        // new ThreadProcessTableTest(table, 2, task_2);
+        PrioArray prio_array = new PrioArray();
+        // TODO terminar de probar
     }
 
 }

@@ -9,7 +9,7 @@ public class PrioArray{
     PrioArray(){
         this.bitmap = new BitSet(140);
         this.queue =  new LinkedList[140];
-        nr_active = 0; 
+        this.nr_active = 0; 
     }
 
     public void setBit(int prio){
@@ -38,6 +38,30 @@ public class PrioArray{
             this.bitmap.set(priority, false);
         }
         nr_active--;
+    }
+
+    public String listToString(int priority){
+        String s="";
+        LinkedList<Task> list = this.queue[priority];
+        if(list!=null){
+            for (Task task:list){
+                s+=task.toString()+"\n";
+            }
+        }
+        return s;
+    }
+
+    public String toString(){
+        String s="";
+        s+="Active processes: "+Integer.toString(this.nr_active)+"\n";
+        s+="Bitmap: "+bitmap.toString()+"\n";
+        s+="Lists:";
+        for(int i=0; i<this.queue.length; i++){
+            if (this.queue[i]!=null){
+                s+="\tPriority "+this.listToString(i)+"\n";
+            }
+        }
+        return s;
     }
 
 }
