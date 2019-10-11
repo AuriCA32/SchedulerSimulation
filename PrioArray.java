@@ -19,7 +19,7 @@ public class PrioArray{
     public void enqueueTask(Task p){
         int priority = p.getPrio();
         LinkedList<Task> list = this.queue[priority];
-        if (!list){ // Not initialized
+        if (list==null){ // Not initialized
             list = new LinkedList<Task>();
             this.queue[priority] = list;
         }

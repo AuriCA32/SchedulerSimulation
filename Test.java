@@ -7,7 +7,7 @@ class ThreadRbtreeTest extends Thread{
     RbTree tree;
     int thread_no;
 
-    public ThreadTest(RbTree t, int number){
+    public ThreadRbtreeTest(RbTree t, int number){
         this.tree=t;
         this.thread_no=number;
         new Thread(this,"Thread "+number).start();
@@ -41,7 +41,7 @@ class ThreadProcessTableTest extends Thread{
     int thread_no;
     Task task;
 
-    public ThreadTest(ProcessTable t, int number, Task task){
+    public ThreadProcessTableTest(ProcessTable t, int number, Task task){
         this.table=t;
         this.thread_no=number;
         this.task = task;
@@ -53,7 +53,8 @@ class ThreadProcessTableTest extends Thread{
         Boolean added = this.table.addTask(this.task);
         if (added){
             System.out.println("Luego de que "+thread_no+" inserta un proceso");
-            System.out.println(this.table.toString());
+            System.out.println("Thread "+thread_no+" "+this.table.toString());
+            System.out.println();
         }
         try {
             sleep((int)(Math.random() * 100));
@@ -61,8 +62,9 @@ class ThreadProcessTableTest extends Thread{
 
         // Get process
         Task taskie = this.table.getTask(this.task.getPid());
-        if (taskie){
-            System.out.println(taskie.toString());
+        if (taskie!=null){
+            System.out.println("Thread "+thread_no+" "+taskie.toString());
+            System.out.println();
         }
         try {
             sleep((int)(Math.random() * 100));
@@ -83,15 +85,16 @@ class ThreadProcessTableTest extends Thread{
         Boolean removed = this.table.removeTask(this.task.getPid());
         if (removed){
             System.out.println("Luego de que "+thread_no+" elimina un proceso");
-            System.out.println(this.table.toString());
+            System.out.println("Thread "+thread_no+" "+this.table.toString());
+            System.out.println();
         }
         try {
             sleep((int)(Math.random() * 100));
         } catch (InterruptedException e) { }
 
         // Get removed process
-        Task taskie = this.table.getTask(this.task.getPid());
-        if (taskie){
+        taskie = this.table.getTask(this.task.getPid());
+        if (taskie!=null){
             System.out.println("Proceso eliminado obtenido por"+thread_no);
         }else{
             System.out.println("Proceso eliminado NO obtenido por"+thread_no);
@@ -124,11 +127,15 @@ public class Test{
         io_operations.put(1, new Integer[] {8,2,0});
         Task task_0 = new Task(0, 0, 100, 0, io_operations);
         // System.out.println(task_0.toString());
-        Task task_1 = new Task(1, 0, 150, 0, io_operations);
+        Task task_1 = new Task(1, 1, 150, 0, io_operations);
         // System.out.println(task_1.toString());
-        Task task_2 = new Task(2, 0, 250, 0, io_operations);
+        Task task_2 = new Task(2, 2, 250, 0, io_operations);
         // System.out.println(task_2.toString());
         // Process table
+        ProcessTable table = new ProcessTable();
+        new ThreadProcessTableTest(table, 0, task_0);
+        new ThreadProcessTableTest(table, 1, task_1);
+        new ThreadProcessTableTest(table, 2, task_2);
     }
 
 }
