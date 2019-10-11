@@ -12,38 +12,43 @@ public class PrioArray{
         this.nr_active = 0; 
     }
 
-    public void setBit(int prio){
-        this.bitmap.set(prio);
-    }
-
-    public void enqueueTask(Task p){
+    public Boolean enqueueTask(Task p){
         int priority = p.getPrio();
         LinkedList<Task> list = this.queue[priority];
         if (list==null){ // Not initialized
             list = new LinkedList<Task>();
             this.queue[priority] = list;
         }
+        if (list.contains(p)){
+            return false;
+        }
         list.add(p);        
-        setBit(priority);
+        this.bitmap.set(priority);
         this.nr_active++;
         p.setArray(this);
+        return true;
     }
 
-    public void dequeue_task(Task p){
+    public Boolean dequeueTask(Task p){
         int priority = p.getPrio();
         // Check if task was last on list
         LinkedList<Task> list = this.queue[priority];
-        list.remove(p);
+        Boolean removed = list.remove(p);
+        if (!removed){
+            return removed;
+        }
         if (list.isEmpty()){
             this.bitmap.set(priority, false);
         }
         nr_active--;
+        p.setArray(null);
+        return removed;
     }
 
     public String listToString(int priority){
         String s="";
         LinkedList<Task> list = this.queue[priority];
-        if(list!=null){
+        if(list!=null || !list.isEmpty()){
             for (Task task:list){
                 s+=task.toString()+"\n";
             }
@@ -55,10 +60,10 @@ public class PrioArray{
         String s="";
         s+="Active processes: "+Integer.toString(this.nr_active)+"\n";
         s+="Bitmap: "+bitmap.toString()+"\n";
-        s+="Lists:";
+        s+="Lists:\n";
         for(int i=0; i<this.queue.length; i++){
-            if (this.queue[i]!=null){
-                s+="\tPriority "+this.listToString(i)+"\n";
+            if (this.queue[i]!=null && !this.queue[i].isEmpty()){
+                s+="\tPriority "+i+".\n\t"+this.listToString(i)+"\n";
             }
         }
         return s;

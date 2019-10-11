@@ -122,10 +122,10 @@ public class Test{
         // new ThreadTest(t, 0);
         // new ThreadTest(t, 1);
         // Prueba PCB
-        // HashMap<Integer, Integer[]> io_operations = new HashMap<Integer, Integer[]>();
-        // io_operations.put(0, new Integer[] {5,1,0});
-        // io_operations.put(1, new Integer[] {8,2,0});
-        // Task task_0 = new Task(0, 0, 100, 0, io_operations);
+        HashMap<Integer, Integer[]> io_operations = new HashMap<Integer, Integer[]>();
+        io_operations.put(0, new Integer[] {5,1,0});
+        io_operations.put(1, new Integer[] {8,2,0});
+        Task task_0 = new Task(0, 0, 100, 0, io_operations);
         // System.out.println(task_0.toString());
         // Task task_1 = new Task(1, 1, 150, 0, io_operations);
         // System.out.println(task_1.toString());
@@ -137,7 +137,26 @@ public class Test{
         // new ThreadProcessTableTest(table, 1, task_1);
         // new ThreadProcessTableTest(table, 2, task_2);
         PrioArray prio_array = new PrioArray();
-        // TODO terminar de probar
+        prio_array.enqueueTask(task_0);
+        System.out.println("Add task");
+        System.out.println(prio_array.toString());
+        if (task_0.getArray()==prio_array){
+            System.out.println("Son el mismo");
+        }
+        Boolean add = prio_array.enqueueTask(task_0);
+        if (add){
+            System.out.println("Add same task");
+        }
+        prio_array.dequeueTask(task_0);
+        System.out.println("Remove task");
+        System.out.println(prio_array.toString());
+        Boolean removed = prio_array.dequeueTask(task_0);
+        if (removed){
+            System.out.println("Removed same task");
+        }
+        if (task_0.getArray()!=prio_array){
+            System.out.println("Sin prio array");
+        }
     }
 
 }
