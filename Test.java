@@ -45,18 +45,12 @@ public class Test{
         HashMap<Integer, Integer[]> io_operations = new HashMap<Integer, Integer[]>();
         io_operations.put(0, new Integer[] {5,1,0});
         io_operations.put(1, new Integer[] {8,2,0});
-        PCB process_0 = new PCB(0, 100, 0, io_operations);
-        System.out.println(process_0.toString());
-        // System.out.println(process_0.getPID());
-        // System.out.println(process_0.getCurrentExecT());
-        // process_0.setCurrentExecT(5);
-        // System.out.println(process_0.getTotalExecT());
-        // System.out.println(process_0.getSystemArrivalT());
-        // System.out.println(process_0.toString());
-        PCB process_1 = new PCB(1, 150, 0, io_operations);
-        System.out.println(process_1.toString());
-        PCB process_2 = new PCB(2, 250, 0, io_operations);
-        System.out.println(process_2.toString());
+        Task task_0 = new Task(0, 0, 100, 0, io_operations);
+        // System.out.println(task_0.toString());
+        Task task_1 = new Task(1, 0, 150, 0, io_operations);
+        // System.out.println(task_1.toString());
+        Task task_2 = new Task(2, 0, 250, 0, io_operations);
+        // System.out.println(task_2.toString());
         // Process table
     }
 

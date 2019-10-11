@@ -3,15 +3,13 @@ import java.util.*;
 
 public class Task{
 
+    private final int TASK_NEW = 0;
     private final int TASK_RUNNING = 1;
     private final int TASK_SLEEP = 2; // Bloqueado
     private final int TASK_TERMINATED = 3;
-
-    // private final int PIDTYPE_MAX = 4;
     
     public int pid; 
 
-    /* -1 unrunnable, 0 runnable, >0 stopped;  */
     public int state;
     /* SMP configuration members  */
     
@@ -28,27 +26,37 @@ public class Task{
 
     public int prio; // Priority -- TODO: definir si habra estatica y dinamica
 
-    // public int policy;
     // LinkedList<> run_list; // Pointers to the next and prev elements in the runqueue list to which the process belongs
     public PrioArray prio_array; // PrioArray that includes the process    
     public int time_slice; // Ticks left in the time quantum of the process
     public int first_time_slice; // Flag, 1 if the process never exhausted its time quantum
 
-    /* Parent-child and siblings relations */
-    // public Task real_parent;
-    // public Task parent;
-    // public LinkedList<Task> children;
-    // public LinkedList<Task> sibling;
-    // public Task group_leader;
+    public int curr_exec_t; 
+    public int total_execution_t;
+    public int system_arrival_t;
 
-    /* PID hash tables */
-    // HashMap<Integer,Task> [] pid_links = new HashMap[PIDTYPE_MAX];
+    // <nro dispositivo, [en qué momento de su ejecución usa el dispositivo, total ciclos e/s, current ciclos e/s]>
+    // esto asumiendo que tenemos mas de un dispositivo de e/s
+    HashMap<Integer, Integer[]> io_operations;
 
-    public float curr_exec_t; 
-    public float total_execution_t;
-    public float system_arrival_t;
+    Task(int pid, int prio, int total_execution_t, int system_arrival_t, HashMap<Integer, Integer[]> io_operations){
+        this.pid=pid;
+        this.prio=prio;
+        this.curr_exec_t=0;
+        this.total_execution_t=total_execution_t;
+        this.system_arrival_t=system_arrival_t;
+        this.io_operations=io_operations;
+    }
 
-    // public Signal signals; 
+    // Getter cpu
+    public int getPid() {
+        return pid;
+    }
+
+    // Setter cpu
+    public void setPid(int cpu) {
+        this.pid = pid;
+    }
 
     // Getter cpu
     public int getCpu() {
@@ -66,7 +74,7 @@ public class Task{
     }
 
     // Setter state
-    public void setState(long  state) {
+    public void setState(int  state) {
         this.state = state;
     }
 
@@ -80,8 +88,44 @@ public class Task{
         this.prio = prio;
     }
 
+    public PrioArray getArray(){
+        return prio_array;
+    }
+
     public void setArray(PrioArray array){
         this.prio_array = array; 
+    }
+
+    public int getCurrExecT(){
+        return curr_exec_t;
+    }
+
+    public void setCurrExecT(int curr_exec_t){
+        this.curr_exec_t = curr_exec_t;
+    }
+
+    public int getTotalExecT(){
+        return total_execution_t;
+    }
+
+    public int getSystemArrivalT(){
+        return system_arrival_t;
+    }
+
+    public String toString(){
+        String s="";
+        s+="Task: "+Integer.toString(this.pid)+"\n";
+        s+="\tPriority: "+Integer.toString(this.prio)+"\n";
+        s+="\tState: "+Integer.toString(this.state)+"\n";
+        s+="\tCPU: "+Integer.toString(this.cpu)+"\n";
+        s+="\tCurrent execution time: "+Integer.toString(this.curr_exec_t)+"\n";
+        s+="\tTotal execution time: "+Integer.toString(this.total_execution_t)+"\n";
+        s+="\tSystem arrival time: "+Integer.toString(this.system_arrival_t)+"\n";
+        s+="\tI/O Operations:\n";
+        for (Integer dispositivo: this.io_operations.keySet()){
+            s+="\t\t<Device "+Integer.toString(dispositivo)+ ", " +Arrays.toString(this.io_operations.get(dispositivo))+">\n";
+        }
+        return s;
     }
 
 }
