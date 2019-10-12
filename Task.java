@@ -3,12 +3,7 @@ import java.util.*;
 
 public class Task{
 
-    private final int TASK_NEW = 0;
-    private final int TASK_RUNNING = 1;
-    private final int TASK_SLEEP = 2; // Bloqueado
-    private final int TASK_TERMINATED = 3;
-    
-    public int pid; 
+    public int pid;
 
     public int state;
     /* SMP configuration members  */
@@ -42,6 +37,7 @@ public class Task{
     Task(int pid, int prio, int total_execution_t, int system_arrival_t, HashMap<Integer, Integer[]> io_operations){
         this.pid=pid;
         this.prio=prio;
+        this.state=-1; // State new
         this.curr_exec_t=0;
         this.total_execution_t=total_execution_t;
         this.system_arrival_t=system_arrival_t;
