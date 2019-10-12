@@ -49,36 +49,73 @@ public class Runqueue{
     }
 
     public Boolean addNewTask(Task task){
-        Boolean add = this.active.enqueueTask(task);
+        Boolean add = active.enqueueTask(task);
         if (!add){
             return false;
         }
-        this.nr_running++;
+        nr_running++;
         task.setState(TASK_RUNNING);
-        task.setCpu(this.cpu_id);
+        task.setCpu(cpu_id);
         return true;
     }
 
     // When the current process expires
     public void changeCurrentProcess(Task next_task){
-        // remove
-        // enqueue in expired
-        // change curr process prio array
-        // current -> next_task
-        // nr_switches++
-        // asign expired_timestamp
-        // check if best_expired_prio needs reasign
+        Boolean removed = active.dequeueTask(current);
+        if (removed){
+            expired.enqueue(current);
+            current = next_task;
+            nr_switches++;
+            // TODO: asign expired_timestamp
+            // check if best_expired_prio needs reasign
+        }
     }
+
     // Exchange expired and active arrays
     public void exchangeArrays(){
-        // Check if active is empty
-        // reasign
+        if (active.getNrActive()==0){
+            PrioArray act = active.clone();
+            active = expired;
+            expired = act;
+        }
     }
-    // Process goes to sleep
-    // Terminate/remove process
-    // Migrate process (add to list)
-    // Calculate cpu load -> paper, libro
-    // Change current
-    // Balancing needed
-    
+
+    // Current process goes to sleep
+    public void sleepCurrentProcess(Task next_task){
+        current.setState(TASK_SLEEP);
+        Boolean removed = active.dequeueTask(current);
+        if (removed){
+            // TODO: enqueue in its I/O device queue
+            current = next_task;
+            nr_switches++;
+        }
+    }
+
+    // Terminate process
+    public void terminateCurrentProcess(Task next_task){
+        if(current.getCurrExecT==current.getTotalExecT){
+            Boolean removed = active.dequeueTask(current);
+            if (removed){
+                current.setState(TASK_TERMINATED);
+                current = next_task;
+                nr_switches++;
+                nr_running--;
+            }
+        }
+    }
+
+    // Migrate process
+    public void migrateProcess(Task process){
+        Boolean removed = active.dequeueTask(process);
+        if (removed){
+            migration_queue.enqueue(process);
+            active_balance = true;
+        }
+    }
+
+    // Calculate cpu load
+    public void calculateCpuLoad(){
+        // Calculos libro
+        // Asign cpu_load to it
+    }    
 }
