@@ -70,6 +70,10 @@ public class Runqueue{
         // check if best_expired_prio needs reasign
     }
     // Exchange expired and active arrays
+    public void exchangeArrays(){
+        // Check if active is empty
+        // reasign
+    }
     // Process goes to sleep
     // Terminate/remove process
     // Migrate process (add to list)
