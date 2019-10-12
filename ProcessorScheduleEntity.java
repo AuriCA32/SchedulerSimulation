@@ -1,18 +1,14 @@
 public class ProcessorScheduleEntity{
     
     public RbTree tasks_timeline;
-    public RbTree.RbNode rb_leftmost, current;
+    public RbTree.RbNode rb_leftmost;
+    int min_vruntime, id;
+    Runqueue rq;
 
-    int tasks_count, running_tasks_count, min_vruntime;
-    // Blocked processes by I/O hash map <PID, priority> -> for insertionin tree
-    HashMap<Integer, Integer> blocked; // El priority queue lo lleva el hilo que simula ser IO
-
-    ScheduleEntity(){
-        this.tasks_count = 0;
-        this.running_tasks_count = 0;
-        this.min_vruntime = 0;
+    ProcessorScheduleEntity(int id){
         this.tasks_timeline = new RbTree();
-        this.blocked = new HashMap<Integer, PCB>();
+        this.id=id;
+        this.rq = new Runqueue(id);
     }
 
     // Getter tasks_count
