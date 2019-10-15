@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Runqueue{
+public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
 
     // Atributos de la tabla 7-4 p.267
     int cpu_id; // ID of cpu
@@ -31,7 +31,7 @@ public class Runqueue{
         335, 272, 215, 172, 137,
         110, 87, 70, 56, 45,
         36, 29, 23, 18, 15
-        };
+    };
 
     Runqueue(int cpu){
         this.cpu_id = cpu;
@@ -125,8 +125,7 @@ public class Runqueue{
     }
 
     // Calculate cpu load
-    public void calculateCpuLoad(){
-        // Calculos libro
-        // Asign cpu_load to it
+    public void calculateCpuLoad(int task_prio){
+        cpu_load += prio_to_weight[task_prio];
     }    
 }
