@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
+public class Runqueue{
 
     // Atributos de la tabla 7-4 p.267
     int cpu_id; // ID of cpu
@@ -72,15 +72,17 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
     }
 
     // When the current process expires
-    public void changeCurrentProcess(Task next_task){
+    public Boolean changeCurrentProcess(Task next_task){
         Boolean removed = active.dequeueTask(current);
+        Boolean add = false; // Neutro &
         if (removed){
-            expired.enqueue(current);
+            add = expired.enqueue(current);
             current = next_task;
             nr_switches++;
             // TODO: asign expired_timestamp
             // check if best_expired_prio needs reasign
         }
+        return removed && add;
     }
 
     // Exchange expired and active arrays
@@ -96,19 +98,34 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
         }
     }
 
+    // Wake task
+    public Boolean wakeProcess(Task next_task){
+        // TODO: dequeue in its I/O device queue
+        // removed =
+        Boolean add = false;
+        // if (removed){
+            add = active.enqueueTask(next_task);
+            next_task.setState(TASK_RUNNING);
+            nr_sleep--;
+        // }
+        return add; // && removed
+    }
+
     // Current process goes to sleep
-    public void sleepCurrentProcess(Task next_task){
-        current.setState(TASK_SLEEP);
+    public Boolean sleepCurrentProcess(Task next_task){
         Boolean removed = active.dequeueTask(current);
         if (removed){
             // TODO: enqueue in its I/O device queue
+            current.setState(TASK_SLEEP);
             current = next_task;
             nr_switches++;
+            nr_sleep++;
         }
+        return removed;
     }
 
     // Terminate process
-    public void terminateCurrentProcess(Task next_task){
+    public Boolean terminateCurrentProcess(Task next_task){
         if(current.getCurrExecT==current.getTotalExecT){
             Boolean removed = active.dequeueTask(current);
             if (removed){
@@ -118,7 +135,9 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
                 nr_switches++;
                 nr_running--;
             }
+            return removed;
         }
+        return false;
     }
 
     // Migrate process
@@ -145,4 +164,18 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
     public int currentUsage(int task_prio){
         return prio_to_weight[task_prio]/cpu_load;
     }
+
+    // public String toString(){
+    //     String s="";
+    //     s+="Active processes: "+Integer.toString(this.nr_active)+"\n";
+    //     s+="Bitmap: "+bitmap.toString()+"\n";
+    //     s+="Lists:\n";
+    //     for(int i=0; i<this.queue.length; i++){
+    //         if (this.queue[i]!=null && !this.queue[i].isEmpty()){
+    //             s+="\tPriority "+i+".\n\t"+this.listToString(i)+"\n";
+    //         }
+    //     }
+    //     return s;
+    // }
+
 }
