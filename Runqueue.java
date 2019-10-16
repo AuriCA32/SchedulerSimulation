@@ -22,7 +22,7 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
     private final int TASK_SLEEP = 1; // Bloqueado
     private final int TASK_TERMINATED = 2;
 
-    private final int[] prio_to_weight = new int[]{
+    private final int[] prio_to_weight = new int[]{ // Luego se puede cambiar a un arreglo compartido
         88761, 71755, 56483, 46273, 36291,
         29154, 23254, 18705, 14949, 11916,
         9548, 7620, 6100, 4904, 3906,
@@ -55,7 +55,7 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
     }
 
     // Getter migration_queue
-    public LinkedList<Task> getCpuLoad() {
+    public LinkedList<Task> getMigrationQueue() {
         return migration_queue;
     }
 
@@ -65,6 +65,7 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
             return false;
         }
         nr_running++;
+        addLoad(task.getPrio());
         task.setState(TASK_RUNNING);
         task.setCpu(cpu_id);
         return true;
@@ -88,6 +89,10 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
             PrioArray act = active.clone();
             active = expired;
             expired = act;
+            // Recalculate cpu load
+            for(Task t : active.getQueue){
+                addLoad(t.getPrio());
+            }
         }
     }
 
@@ -107,6 +112,7 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
         if(current.getCurrExecT==current.getTotalExecT){
             Boolean removed = active.dequeueTask(current);
             if (removed){
+                removeLoad(current.getPrio());
                 current.setState(TASK_TERMINATED);
                 current = next_task;
                 nr_switches++;
@@ -120,12 +126,23 @@ public class Runqueue{ // TODO: AGREGAR EL CALCULO DEL LOAD EN TODO
         Boolean removed = active.dequeueTask(process);
         if (removed){
             migration_queue.enqueue(process);
+            removeLoad(current.getPrio());
             active_balance = true;
         }
     }
 
-    // Calculate cpu load
-    public void calculateCpuLoad(int task_prio){
+    // Add load to cpu
+    public void addLoad(int task_prio){
         cpu_load += prio_to_weight[task_prio];
-    }    
+    }
+
+    // Calculate cpu load
+    public void removeLoad(int task_prio){
+        cpu_load -= prio_to_weight[task_prio];
+    }
+
+    // Calculate current task cpu percentage usage
+    public int currentUsage(int task_prio){
+        return prio_to_weight[task_prio]/cpu_load;
+    }
 }

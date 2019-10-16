@@ -19,7 +19,7 @@ public class Task{
 
     /* End of SMP config */
 
-    public int prio; // Priority -- TODO: definir si habra estatica y dinamica
+    public int prio; // Priority
 
     // LinkedList<> run_list; // Pointers to the next and prev elements in the runqueue list to which the process belongs
     public PrioArray prio_array; // PrioArray that includes the process    
