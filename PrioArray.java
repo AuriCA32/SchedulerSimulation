@@ -13,13 +13,13 @@ public class PrioArray{
     }
 
     PrioArray(BitSet bitmap, LinkedList<Task>[] queue, int nr_active){
-        this.bitmap = bitmap.clone();
+        this.bitmap = bitmap;
         this.queue =  queue.clone();
         this.nr_active = nr_active;
     }
 
     public PrioArray clone(){
-        BitSet bitmap_clone = bitmap.clone();
+        BitSet bitmap_clone = (BitSet) bitmap.clone();
         LinkedList<Task> [] queue_clone =  queue.clone();
         return new PrioArray(bitmap_clone, queue_clone, 0);
     }
@@ -32,8 +32,8 @@ public class PrioArray{
         return bitmap;
     }
 
-    public int getQueue(){
-        return nr_active;
+    public LinkedList<Task>[] getQueue(){
+        return queue;
     }
 
     public Boolean enqueueTask(Task p){

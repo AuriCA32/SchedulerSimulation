@@ -54,6 +54,21 @@ public class Runqueue{
         return cpu_load;
     }
 
+    // Getter timestamp_last_tick
+    public int getTimestampLastTick() {
+        return timestamp_last_tick;
+    }
+
+    // Setter timestamp_last_tick
+    public void setTimestampLastTick(int last_tick) {
+        timestamp_last_tick = last_tick;
+    }
+
+    // Getter current
+    public Task getCurrent() {
+        return current;
+    }
+
     // Getter migration_queue
     public LinkedList<Task> getMigrationQueue() {
         return migration_queue;
@@ -74,9 +89,9 @@ public class Runqueue{
     // When the current process expires
     public Boolean changeCurrentProcess(Task next_task){
         Boolean removed = active.dequeueTask(current);
-        Boolean add = false; // Neutro &
+        Boolean add = false; // Abs &
         if (removed){
-            add = expired.enqueue(current);
+            add = expired.enqueueTask(current);
             current = next_task;
             nr_switches++;
             // TODO: asign expired_timestamp
@@ -92,41 +107,48 @@ public class Runqueue{
             active = expired;
             expired = act;
             // Recalculate cpu load
-            for(Task t : active.getQueue){
-                addLoad(t.getPrio());
+            LinkedList<Task> [] queue = active.getQueue();
+            for(LinkedList<Task> list : queue){
+                for(Task t : list){
+                    addLoad(t.getPrio());
+                }
             }
         }
     }
 
     // Wake task
-    public Boolean wakeProcess(Task next_task){
-        // TODO: dequeue in its I/O device queue
-        // removed =
+    public Boolean wakeProcess(Task next_task, LinkedList<Task> io_device_queue){
+        Boolean removed = io_device_queue.remove(next_task);
         Boolean add = false;
-        // if (removed){
+        if (removed){
             add = active.enqueueTask(next_task);
-            next_task.setState(TASK_RUNNING);
-            nr_sleep--;
-        // }
-        return add; // && removed
+            if (add){
+                next_task.setState(TASK_RUNNING);
+                nr_sleep--;
+            }
+        }
+        return add && removed;
     }
 
     // Current process goes to sleep
-    public Boolean sleepCurrentProcess(Task next_task){
+    public Boolean sleepCurrentProcess(Task next_task, LinkedList<Task> io_device_queue){
         Boolean removed = active.dequeueTask(current);
+        Boolean add = false;
         if (removed){
-            // TODO: enqueue in its I/O device queue
-            current.setState(TASK_SLEEP);
-            current = next_task;
-            nr_switches++;
-            nr_sleep++;
+            add = io_device_queue.add(current);
+            if(add){
+                current.setState(TASK_SLEEP);
+                current = next_task;
+                nr_switches++;
+                nr_sleep++;
+            }
         }
-        return removed;
+        return removed && add;
     }
 
     // Terminate process
     public Boolean terminateCurrentProcess(Task next_task){
-        if(current.getCurrExecT==current.getTotalExecT){
+        if(current.getCurrExecT()==current.getTotalExecT()){
             Boolean removed = active.dequeueTask(current);
             if (removed){
                 removeLoad(current.getPrio());
@@ -144,7 +166,7 @@ public class Runqueue{
     public void migrateProcess(Task process){
         Boolean removed = active.dequeueTask(process);
         if (removed){
-            migration_queue.enqueue(process);
+            migration_queue.add(process);
             removeLoad(current.getPrio());
             active_balance = true;
         }
@@ -165,17 +187,25 @@ public class Runqueue{
         return prio_to_weight[task_prio]/cpu_load;
     }
 
-    // public String toString(){
-    //     String s="";
-    //     s+="Active processes: "+Integer.toString(this.nr_active)+"\n";
-    //     s+="Bitmap: "+bitmap.toString()+"\n";
-    //     s+="Lists:\n";
-    //     for(int i=0; i<this.queue.length; i++){
-    //         if (this.queue[i]!=null && !this.queue[i].isEmpty()){
-    //             s+="\tPriority "+i+".\n\t"+this.listToString(i)+"\n";
-    //         }
-    //     }
-    //     return s;
-    // }
+    public String toString(){
+        String s="";
+        s+="ID: "+Integer.toString(cpu_id)+"\n";
+        s+="Runnable process: "+Integer.toString(nr_running)+"\n";
+        s+="Load: "+Integer.toString(cpu_load)+"\n";
+        s+="Process switches: "+Integer.toString(nr_switches)+"\n";
+        s+="Process asleep: "+Integer.toString(nr_sleep)+"\n";
+        s+="Expired timestamp: "+Integer.toString(expired_timestamp)+"\n";
+        s+="Timestamp last tick: "+Integer.toString(timestamp_last_tick)+"\n";
+        s+="Current task: "+current.toString()+"\n";
+        s+="Active array: "+active.toString()+"\n";
+        s+="Expired array: "+expired.toString()+"\n";
+        s+="Best Expired Prio: "+Integer.toString(best_expired_prio)+"\n";
+        s+="Active Balance: "+active_balance+"\n";
+        s+="Migration Queue: \n";
+        for(Task mt : migration_queue){
+            s+="\tTask "+mt.toString()+"\n";
+        }
+        return s;
+    }
 
 }
