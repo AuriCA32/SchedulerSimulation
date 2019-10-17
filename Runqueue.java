@@ -88,10 +88,22 @@ public class Runqueue{
 
     // When the current process expires
     public Boolean changeCurrentProcess(Task next_task){
-        Boolean removed = active.dequeueTask(current);
+        Boolean removed = false;
+        if (current!=null && current.getPid()==next_task.getPid()){
+            return removed;
+        }
+        if (current!=null){
+            removed = active.dequeueTask(current);
+        }else{
+            removed = true;
+        }
         Boolean add = false; // Abs &
         if (removed){
-            add = expired.enqueueTask(current);
+            if (current!=null){
+                add = expired.enqueueTask(current);
+            }else{
+                add = true;
+            }
             current = next_task;
             nr_switches++;
             // TODO: asign expired_timestamp
@@ -196,7 +208,11 @@ public class Runqueue{
         s+="Process asleep: "+Integer.toString(nr_sleep)+"\n";
         s+="Expired timestamp: "+Integer.toString(expired_timestamp)+"\n";
         s+="Timestamp last tick: "+Integer.toString(timestamp_last_tick)+"\n";
-        s+="Current task: "+current.toString()+"\n";
+        if (current!=null){
+            s+="Current task: "+current.toString()+"\n";
+        }else{
+            s+="No active current task\n";
+        }
         s+="Active array: "+active.toString()+"\n";
         s+="Expired array: "+expired.toString()+"\n";
         s+="Best Expired Prio: "+Integer.toString(best_expired_prio)+"\n";

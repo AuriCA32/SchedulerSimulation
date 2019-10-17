@@ -124,18 +124,18 @@ public class Test{
         // Prueba PCB
         HashMap<Integer, Integer[]> io_operations = new HashMap<Integer, Integer[]>();
         io_operations.put(0, new Integer[] {5,1,0});
-        io_operations.put(1, new Integer[] {8,2,0});
+        // io_operations.put(1, new Integer[] {8,2,0});
         Task task_0 = new Task(0, 0, 100, 0, io_operations);
         // System.out.println(task_0.toString());
-        // Task task_1 = new Task(1, 1, 150, 0, io_operations);
+        Task task_1 = new Task(1, 1, 150, 0, io_operations);
         // System.out.println(task_1.toString());
-        // Task task_2 = new Task(2, 2, 250, 0, io_operations);
-        // System.out.println(task_2.toString());
-        // Process table
-        // ProcessTable table = new ProcessTable();
-        // new ThreadProcessTableTest(table, 0, task_0);
-        // new ThreadProcessTableTest(table, 1, task_1);
-        // new ThreadProcessTableTest(table, 2, task_2);
+        Task task_2 = new Task(2, 2, 250, 0, io_operations);
+        /* System.out.println(task_2.toString());
+        Process table
+        ProcessTable table = new ProcessTable();
+        new ThreadProcessTableTest(table, 0, task_0);
+        new ThreadProcessTableTest(table, 1, task_1);
+        new ThreadProcessTableTest(table, 2, task_2);
         PrioArray prio_array = new PrioArray();
         prio_array.enqueueTask(task_0);
         System.out.println("Add task");
@@ -156,6 +156,23 @@ public class Test{
         }
         if (task_0.getArray()!=prio_array){
             System.out.println("Sin prio array");
+        } */
+        // Create I/O queue
+        LinkedList<Task> io_queue_0 = new LinkedList<Task>();
+        Runqueue run_cpu_0 = new Runqueue(0);
+        System.out.println(run_cpu_0.toString());
+        System.out.println();
+        run_cpu_0.addNewTask(task_0);
+        System.out.println(run_cpu_0.toString());
+        Boolean add = run_cpu_0.addNewTask(task_0);
+        if (add){
+            System.out.println("Add");
+        }
+        run_cpu_0.changeCurrentProcess(task_0);
+        System.out.println(run_cpu_0.toString());
+        Boolean changed = run_cpu_0.changeCurrentProcess(run_cpu_0.getCurrent());
+        if (changed){
+            System.out.println("Changed");
         }
     }
 
