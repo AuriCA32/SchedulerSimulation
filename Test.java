@@ -168,13 +168,12 @@ public class Test{
             System.out.println("Add");
         }
         run_cpu_0.changeCurrentProcess(task_0);
-        // System.out.println(run_cpu_0.toString());
+        System.out.println(run_cpu_0.toString());
         Boolean changed = run_cpu_0.changeCurrentProcess(run_cpu_0.getCurrent());
         if (changed){
             System.out.println("Changed");
         }
         run_cpu_0.exchangeArrays();
-        // FALTA PROBAR EXCHANGE BIEN
         // Proceso terminado
         run_cpu_0.addNewTask(task_1);
         // System.out.println(run_cpu_0.toString());
@@ -184,7 +183,7 @@ public class Test{
         }
         task_0.setCurrExecT(task_0.getTotalExecT());
         run_cpu_0.terminateCurrentProcess(task_1);
-        // System.out.println(run_cpu_0.toString());
+        System.out.println(run_cpu_0.toString());
         run_cpu_0.addNewTask(task_2);
         run_cpu_0.changeCurrentProcess(task_2);
         run_cpu_0.changeCurrentProcess(null);

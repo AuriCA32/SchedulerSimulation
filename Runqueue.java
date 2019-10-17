@@ -120,15 +120,16 @@ public class Runqueue{
             PrioArray act = active.clone();
             active = expired;
             expired = act;
+            // NO se tiene que recalcular porque ese peso no se ha eliminado
             // Recalculate cpu load
-            LinkedList<Task> [] queue = active.getQueue();
-            for(LinkedList<Task> list : queue){
-                if (list!=null){
-                    for(Task t : list){
-                        addLoad(t.getPrio());
-                    }
-                }
-            }
+            // LinkedList<Task> [] queue = active.getQueue();
+            // for(LinkedList<Task> list : queue){
+            //     if (list!=null){
+            //         for(Task t : list){
+            //             addLoad(t.getPrio());
+            //         }
+            //     }
+            // }
         }
     }
 
