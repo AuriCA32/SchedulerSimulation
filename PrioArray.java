@@ -14,7 +14,7 @@ public class PrioArray{
 
     PrioArray(BitSet bitmap, LinkedList<Task>[] queue, int nr_active){
         this.bitmap = bitmap;
-        this.queue =  queue.clone();
+        this.queue =  queue;
         this.nr_active = nr_active;
     }
 

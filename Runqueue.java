@@ -89,8 +89,10 @@ public class Runqueue{
     // When the current process expires
     public Boolean changeCurrentProcess(Task next_task){
         Boolean removed = false;
-        if (current!=null && current.getPid()==next_task.getPid()){
-            return removed;
+        if (next_task!=null){
+            if (current!=null && current.getPid()==next_task.getPid()){
+                return removed;
+            }
         }
         if (current!=null){
             removed = active.dequeueTask(current);
@@ -121,8 +123,10 @@ public class Runqueue{
             // Recalculate cpu load
             LinkedList<Task> [] queue = active.getQueue();
             for(LinkedList<Task> list : queue){
-                for(Task t : list){
-                    addLoad(t.getPrio());
+                if (list!=null){
+                    for(Task t : list){
+                        addLoad(t.getPrio());
+                    }
                 }
             }
         }

@@ -160,16 +160,15 @@ public class Test{
         // Create I/O queue
         LinkedList<Task> io_queue_0 = new LinkedList<Task>();
         Runqueue run_cpu_0 = new Runqueue(0);
-        System.out.println(run_cpu_0.toString());
-        System.out.println();
+        // System.out.println(run_cpu_0.toString());
         run_cpu_0.addNewTask(task_0);
-        System.out.println(run_cpu_0.toString());
+        // System.out.println(run_cpu_0.toString());
         Boolean add = run_cpu_0.addNewTask(task_0);
         if (add){
             System.out.println("Add");
         }
         run_cpu_0.changeCurrentProcess(task_0);
-        System.out.println(run_cpu_0.toString());
+        // System.out.println(run_cpu_0.toString());
         Boolean changed = run_cpu_0.changeCurrentProcess(run_cpu_0.getCurrent());
         if (changed){
             System.out.println("Changed");
@@ -178,16 +177,19 @@ public class Test{
         // FALTA PROBAR EXCHANGE BIEN
         // Proceso terminado
         run_cpu_0.addNewTask(task_1);
-        System.out.println(run_cpu_0.toString());
+        // System.out.println(run_cpu_0.toString());
         Boolean terminated = run_cpu_0.terminateCurrentProcess(task_1);
         if (terminated){
             System.out.println("Terminated");
         }
         task_0.setCurrExecT(task_0.getTotalExecT());
         run_cpu_0.terminateCurrentProcess(task_1);
-        System.out.println(run_cpu_0.toString());
+        // System.out.println(run_cpu_0.toString());
         run_cpu_0.addNewTask(task_2);
         run_cpu_0.changeCurrentProcess(task_2);
+        run_cpu_0.changeCurrentProcess(null);
+        System.out.println(run_cpu_0.toString());
+        run_cpu_0.exchangeArrays();
         System.out.println(run_cpu_0.toString());
     }
 
