@@ -192,8 +192,24 @@ public class Test{
         // System.out.println(run_cpu_0.toString());
         // System.out.println(task_1.getArray().toString());
         // Migrate process
-        run_cpu_0.migrateProcess(task_1);
+        // run_cpu_0.migrateProcess(task_1);
+        // System.out.println(run_cpu_0.toString());
+        run_cpu_0.changeCurrentProcess(task_1);
         System.out.println(run_cpu_0.toString());
+        run_cpu_0.sleepCurrentProcess(task_2, io_queue_0);
+        System.out.println("\n\nSLEEP CURRENT");
+        System.out.println(run_cpu_0.toString());
+        run_cpu_0.changeCurrentProcess(null);
+        Boolean asleep = run_cpu_0.sleepCurrentProcess(task_2, io_queue_0);
+        if (asleep){
+            System.out.println("Asleep");
+        }
+        System.out.println("I/O Queue");
+        String s="";
+        for(Task t : io_queue_0){
+            s+="\tTask "+t.toString()+"\n";
+        }
+        System.out.println(s);
     }
 
 }

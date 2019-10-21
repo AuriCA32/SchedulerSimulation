@@ -149,6 +149,9 @@ public class Runqueue{
 
     // Current process goes to sleep
     public Boolean sleepCurrentProcess(Task next_task, LinkedList<Task> io_device_queue){
+        if (current==null){
+            return false;
+        }
         Boolean removed = active.dequeueTask(current);
         Boolean add = false;
         if (removed){
