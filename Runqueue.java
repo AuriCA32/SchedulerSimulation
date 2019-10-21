@@ -184,7 +184,7 @@ public class Runqueue{
         Boolean removed = active.dequeueTask(process);
         if (removed){
             migration_queue.add(process);
-            removeLoad(current.getPrio());
+            removeLoad(process.getPrio());
             active_balance = true;
         }
     }
