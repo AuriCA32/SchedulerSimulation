@@ -118,8 +118,8 @@ public class Runqueue{
     public void exchangeArrays(){
         if (active.getNrActive()==0){
             PrioArray act = active.clone();
-            active = expired;
-            expired = act;
+            this.active = expired;
+            this.expired = act;
             // NO se tiene que recalcular porque ese peso no se ha eliminado
             // Recalculate cpu load
             // LinkedList<Task> [] queue = active.getQueue();
@@ -142,6 +142,7 @@ public class Runqueue{
             if (add){
                 next_task.setState(TASK_RUNNING);
                 nr_sleep--;
+                nr_running++;
             }
         }
         return add && removed;
@@ -150,6 +151,9 @@ public class Runqueue{
     // Current process goes to sleep
     public Boolean sleepCurrentProcess(Task next_task, LinkedList<Task> io_device_queue){
         if (current==null){
+            return false;
+        }
+        if(current.getPid()==next_task.getPid()){
             return false;
         }
         Boolean removed = active.dequeueTask(current);
@@ -161,6 +165,7 @@ public class Runqueue{
                 current = next_task;
                 nr_switches++;
                 nr_sleep++;
+                nr_running--;
             }
         }
         return removed && add;

@@ -195,17 +195,31 @@ public class Test{
         // run_cpu_0.migrateProcess(task_1);
         // System.out.println(run_cpu_0.toString());
         run_cpu_0.changeCurrentProcess(task_1);
-        System.out.println(run_cpu_0.toString());
+        // System.out.println(run_cpu_0.toString());
         run_cpu_0.sleepCurrentProcess(task_2, io_queue_0);
         System.out.println("\n\nSLEEP CURRENT");
         System.out.println(run_cpu_0.toString());
-        run_cpu_0.changeCurrentProcess(null);
         Boolean asleep = run_cpu_0.sleepCurrentProcess(task_2, io_queue_0);
         if (asleep){
             System.out.println("Asleep");
         }
-        System.out.println("I/O Queue");
+        run_cpu_0.changeCurrentProcess(null);
+        run_cpu_0.changeCurrentProcess(task_2);
+        System.out.println("\n\nI/O Queue");
         String s="";
+        for(Task t : io_queue_0){
+            s+="\tTask "+t.toString()+"\n";
+        }
+        System.out.println(s);
+        Boolean awake = run_cpu_0.wakeProcess(task_1,io_queue_0);
+        System.out.println("\n\nWAKE");
+        System.out.println(run_cpu_0.toString());
+        awake = run_cpu_0.wakeProcess(task_1,io_queue_0);
+        if(awake){
+            System.out.println("Awake");
+        }
+        System.out.println("\n\nI/O Queue");
+        s="";
         for(Task t : io_queue_0){
             s+="\tTask "+t.toString()+"\n";
         }
