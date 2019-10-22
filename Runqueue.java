@@ -94,7 +94,7 @@ public class Runqueue{
             return false;
         }
         nr_running++;
-        addLoad(task.getPrio());
+        addLoad(task.getStaticPrio());
         task.setState(TASK_RUNNING);
         task.setCpu(cpu_id);
         return true;
@@ -122,7 +122,7 @@ public class Runqueue{
             }
             current = next_task;
             nr_switches++;
-            current.setTimeSlice(currentTimeSlice(current.getPrio()));
+            current.setTimeSlice(currentTimeSlice(current.getDynamicPrio()));
             // TODO: asign expired_timestamp
             // check if best_expired_prio needs reasign
         }
@@ -191,7 +191,7 @@ public class Runqueue{
         if(current.getCurrExecT()==current.getTotalExecT()){
             Boolean removed = active.dequeueTask(current);
             if (removed){
-                removeLoad(current.getPrio());
+                removeLoad(current.getDynamicPrio());
                 current.setState(TASK_TERMINATED);
                 current = next_task;
                 nr_switches++;
@@ -207,7 +207,7 @@ public class Runqueue{
         Boolean removed = active.dequeueTask(process);
         if (removed){
             migration_queue.add(process);
-            removeLoad(process.getPrio());
+            removeLoad(process.getDynamicPrio());
             active_balance = true;
         }
     }

@@ -19,7 +19,8 @@ public class Task{
 
     /* End of SMP config */
 
-    public int prio; // Priority
+    public int static_prio; // Static priority
+    public int dynamic_prio; // Dynamic priority
 
     // LinkedList<> run_list; // Pointers to the next and prev elements in the runqueue list to which the process belongs
     public PrioArray prio_array; // PrioArray that includes the process    
@@ -36,7 +37,8 @@ public class Task{
 
     Task(int pid, int prio, int total_execution_t, int system_arrival_t, HashMap<Integer, Integer[]> io_operations){
         this.pid=pid;
-        this.prio=prio;
+        this.static_prio=prio;
+        this.dynamic_prio=prio;
         this.state=-1; // State new
         this.curr_exec_t=0;
         this.total_execution_t=total_execution_t;
@@ -75,13 +77,23 @@ public class Task{
     }
 
     // Getter prio
-    public int getPrio() {
-        return prio;
+    public int getStaticPrio() {
+        return static_prio;
     }
 
     // Setter prio
-    public void setPrio(int prio) {
-        this.prio = prio;
+    public void setStaticPrio(int prio) {
+        this.static_prio = prio;
+    }
+
+    // Getter prio
+    public int getDynamicPrio() {
+        return dynamic_prio;
+    }
+
+    // Setter prio
+    public void setDynamicPrio(int prio) {
+        this.dynamic_prio = prio;
     }
 
     public PrioArray getArray(){
