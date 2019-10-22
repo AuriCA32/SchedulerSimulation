@@ -143,6 +143,10 @@ public class RbTree{
         return n; 
     }
 
+    public synchronized int minimum_pid(){
+        return minimun(root).PID;
+    }
+
     private synchronized void transplant(Node u, Node v){
         if (u.parent == nil){
             this.root = v; 
