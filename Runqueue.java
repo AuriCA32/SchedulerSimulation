@@ -10,7 +10,6 @@ public class Runqueue{
     int nr_sleep; // Number of process that are waiting for IO (not in any prio array)
     int expired_timestamp; // Insertion time of the eldest process in the expired lists
     int timestamp_last_tick; // Timestamp value of the last timer interrupt
-    int quantum_left; // Quantum left 
     Task current; // Current task
     PrioArray active; // Active processes
     PrioArray expired; // Expired processes
@@ -123,6 +122,7 @@ public class Runqueue{
             }
             current = next_task;
             nr_switches++;
+            current.setTimeSlice(currentTimeSlice(current.getPrio()));
             // TODO: asign expired_timestamp
             // check if best_expired_prio needs reasign
         }
@@ -222,9 +222,9 @@ public class Runqueue{
         cpu_load -= prio_to_weight[task_prio];
     }
 
-    // Calculate current task cpu percentage usage
+    // Calculate current task cpu percentage usage from quantum
     public int currentTimeSlice(int task_prio){
-        return prio_to_weight[task_prio]/cpu_load;
+        return (prio_to_weight[task_prio]/cpu_load)*quantum;
     }
 
     public String toString(){

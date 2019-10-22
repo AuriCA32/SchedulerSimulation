@@ -108,6 +108,18 @@ public class Task{
         return system_arrival_t;
     }
 
+    public int getTimeSlice(){
+        return time_slice;
+    }
+
+    public void setTimeSlice(int ts){
+        time_slice = ts;
+    }
+
+    public void decrementTimeSlice(){
+        time_slice--;
+    }
+
     public String toString(){
         String s="";
         s+="Task: "+Integer.toString(this.pid)+"\n";
