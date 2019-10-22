@@ -37,7 +37,7 @@ public class PrioArray{
     }
 
     public Boolean enqueueTask(Task p){
-        int priority = p.getPrio();
+        int priority = p.getDynamicPrio();
         LinkedList<Task> list = this.queue[priority];
         if (list==null){ // Not initialized
             list = new LinkedList<Task>();
@@ -54,7 +54,7 @@ public class PrioArray{
     }
 
     public Boolean dequeueTask(Task p){
-        int priority = p.getPrio();
+        int priority = p.getDynamicPrio();
         // Check if task was last on list
         LinkedList<Task> list = this.queue[priority];
         Boolean removed = list.remove(p);

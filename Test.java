@@ -159,7 +159,7 @@ public class Test{
         } */
         // Create I/O queue
         LinkedList<Task> io_queue_0 = new LinkedList<Task>();
-        Runqueue run_cpu_0 = new Runqueue(0);
+        Runqueue run_cpu_0 = new Runqueue(0, 100);
         // System.out.println(run_cpu_0.toString());
         run_cpu_0.addNewTask(task_0);
         // System.out.println(run_cpu_0.toString());
@@ -204,6 +204,10 @@ public class Test{
             System.out.println("Asleep");
         }
         run_cpu_0.changeCurrentProcess(null);
+        asleep = run_cpu_0.sleepCurrentProcess(task_2, io_queue_0);
+        if (asleep){
+            System.out.println("Asleep");
+        }
         run_cpu_0.changeCurrentProcess(task_2);
         System.out.println("\n\nI/O Queue");
         String s="";

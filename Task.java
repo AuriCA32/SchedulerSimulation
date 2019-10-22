@@ -140,7 +140,8 @@ public class Task{
     public String toString(){
         String s="";
         s+="Task: "+Integer.toString(this.pid)+"\n";
-        s+="\tPriority: "+Integer.toString(this.prio)+"\n";
+        s+="\tStatic priority: "+Integer.toString(this.static_prio)+"\n";
+        s+="\tDynamic priority: "+Integer.toString(this.dynamic_prio)+"\n";
         s+="\tState: "+Integer.toString(this.state)+"\n";
         s+="\tCPU: "+Integer.toString(this.cpu)+"\n";
         s+="\tCurrent execution time: "+Integer.toString(this.curr_exec_t)+"\n";

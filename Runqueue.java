@@ -4,6 +4,7 @@ public class Runqueue{
 
     // Atributos de la tabla 7-4 p.267
     int cpu_id; // ID of cpu
+    int quantum;
     int nr_running; // Number of runnable processes in the runqueue lists
     int cpu_load; // CPU load factor based on the average number of processes in the runqueue
     int nr_switches; // Number of process switches
@@ -33,8 +34,9 @@ public class Runqueue{
         36, 29, 23, 18, 15
     };
 
-    Runqueue(int cpu){
+    Runqueue(int cpu, int q){
         this.cpu_id = cpu;
+        this.quantum = q;
         this.nr_running = 0;
         this.cpu_load = 0;
         this.nr_switches = 0;
@@ -66,16 +68,6 @@ public class Runqueue{
         }
         timestamp_last_tick = last_tick;
         current.decrementTimeSlice();
-    }
-
-    // Getter quantum_left
-    public int getQuantumLeft() {
-        return quantum_left;
-    }
-
-    // Setter timestamp_last_tick
-    public void decrementQuantumLeft() {
-        quantum_left--;
     }
 
     // Getter current
@@ -188,7 +180,7 @@ public class Runqueue{
 
     // Terminate process
     public Boolean terminateCurrentProcess(Task next_task){
-        if(current.getCurrExecT()==current.getTotalExecT()){
+        if(current.hasTerminated()){
             Boolean removed = active.dequeueTask(current);
             if (removed){
                 removeLoad(current.getDynamicPrio());
