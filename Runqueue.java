@@ -223,7 +223,7 @@ public class Runqueue{
     }
 
     // Calculate current task cpu percentage usage
-    public int currentUsage(int task_prio){
+    public int currentTimeSlice(int task_prio){
         return prio_to_weight[task_prio]/cpu_load;
     }
 
