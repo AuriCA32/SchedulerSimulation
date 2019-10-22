@@ -130,6 +130,11 @@ public class Task{
 
     public void decrementTimeSlice(){
         time_slice--;
+        curr_exec_t++;
+    }
+
+    public Boolean hasTerminated(){
+        return curr_exec_t == total_execution_t;
     }
 
     public String toString(){
