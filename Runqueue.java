@@ -10,6 +10,7 @@ public class Runqueue{
     int nr_sleep; // Number of process that are waiting for IO (not in any prio array)
     int expired_timestamp; // Insertion time of the eldest process in the expired lists
     int timestamp_last_tick; // Timestamp value of the last timer interrupt
+    int quantum_left; // Quantum left 
     Task current; // Current task
     PrioArray active; // Active processes
     PrioArray expired; // Expired processes
@@ -61,7 +62,21 @@ public class Runqueue{
 
     // Setter timestamp_last_tick
     public void setTimestampLastTick(int last_tick) {
+        if (timestamp_last_tick==last_tick){
+            return;
+        }
         timestamp_last_tick = last_tick;
+        current.decrementTimeSlice();
+    }
+
+    // Getter quantum_left
+    public int getQuantumLeft() {
+        return quantum_left;
+    }
+
+    // Setter timestamp_last_tick
+    public void decrementQuantumLeft() {
+        quantum_left--;
     }
 
     // Getter current
