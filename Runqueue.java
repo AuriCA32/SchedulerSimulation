@@ -114,7 +114,9 @@ public class Runqueue{
             }
             current = next_task;
             nr_switches++;
-            current.setTimeSlice(currentTimeSlice(current.getDynamicPrio()));
+            if (current!=null){
+                current.setTimeSlice(currentTimeSlice(current.getDynamicPrio()));
+            }
             // TODO: asign expired_timestamp
             // check if best_expired_prio needs reasign
         }
