@@ -15,7 +15,7 @@ public class Clock implements Runnable{
         } catch (InterruptedException e) { }
     }
 
-    public int checkTotalTicks(){
+    public int getTotalTicks(){
         return total_ticks;
     }
 
