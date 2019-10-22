@@ -137,6 +137,16 @@ public class Task{
         return curr_exec_t == total_execution_t;
     }
 
+    public int neededIO(){
+        for (Integer dispositivo: this.io_operations.keySet()){
+            Integer[] arr = this.io_operations.get(dispositivo);
+            if(arr[0]==curr_exec_t){
+                return dispositivo;
+            }
+        }
+        return -1;
+    }
+
     public String toString(){
         String s="";
         s+="Task: "+Integer.toString(this.pid)+"\n";

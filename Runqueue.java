@@ -203,6 +203,7 @@ public class Runqueue{
             migration_queue.add(process);
             removeLoad(process.getDynamicPrio());
             active_balance = true;
+            nr_running--;
         }
     }
 
