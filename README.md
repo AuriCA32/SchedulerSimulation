@@ -22,11 +22,38 @@ La sincronización se da en la tabla de procesos y en los árboles rojo-negro, a
 
 ### Clase `Task`
 
+Contiene todos los atributos comunes de los procesos:
 
+* PID
+* Estado
+* CPU que lo ejecuta
+* Prioridad dinámica y estática
+* Apuntador a la estructura `PrioArray` que lo contiene
+* Time slice del proceso
+* Tiempo durante el cual se ha ejecutado
+* Tiempo total de ejecución del proceso
 
-### Clase `Clock`
+### Clase `ProcessTable`
 
-Consiste en un contador que se aumenta de acuerdo a un parámetro de entrada `tick`, el cual indica cúanto tiempo dura cada tick.
+Implementa la tabla de procesos como un HashMap de pares <PID, Task>.
+
+### Clase `PrioArray`
+
+Esta clase implementa la cola de prioridad que se usa para clasificar los procesos. Sus atributos son:
+
+* La cantidad de procesos activos en la cola
+* Un arreglo con 140 listas enlazadas que contienen los procesos clasificados por prioridad
+* Un bitmap que indica si la lista enlazada en una posición específica del arreglo está vacía o no
+
+### Clase `Runqueue`
+
+Esta estructura de datos se usa para llevar el control de los procesos en ejecución del CPU. Maneja:
+
+* Cálculo de carga del CPU de acuerdo a los procesos activos, expirados y dormidos
+* Agregar y eliminar procesos a las colas `PrioArray` de procesos activos y expirados
+* Cambio de contexto y terminación de procesos
+* Intercambio de las colas cuando todos los procesos pasan a la cola de expirados
+* Levantar y dormir procesos
 
 ### Clase `CPU`
 
@@ -40,6 +67,14 @@ Es la estructura principal para los hilos que simularán ser CPU. Sus atributos 
 * Una referencia al HashMap que representa los dispositivos de E/S, donde la clave es el id del dispositivo y el valor es una lista enlazada de `Task`
 
 Además contiene las funciones para realizar el scheduling y levantar y dormir procesos.
+
+### Clase `RbTree`
+
+Implementa un árbol rojo-negro donde
+
+### Clase `Clock`
+
+Consiste en un contador que se aumenta de acuerdo a un parámetro de entrada `tick`, el cual indica cúanto tiempo dura cada tick.
 
 ## Pruebas
 
