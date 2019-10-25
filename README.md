@@ -2,7 +2,7 @@
 
 Autores:
 
-* José Morán (@usb.ve)
+* José Morán (14-10714@usb.ve)
 * Aurivan Castro (14-10205@usb.ve)
 * Sandra Vera (14-11130@usb.ve)
 
@@ -20,13 +20,26 @@ La sincronización se da en la tabla de procesos y en los árboles rojo-negro, a
 
 ## Detalles de Implementación
 
+### Clase `Task`
+
+
+
 ### Clase `Clock`
 
 Consiste en un contador que se aumenta de acuerdo a un parámetro de entrada `tick`, el cual indica cúanto tiempo dura cada tick.
 
 ### Clase `CPU`
 
+Es la estructura principal para los hilos que simularán ser CPU. Sus atributos son:
 
+* El árbol rojo-negro para scheduling
+* El runqueue
+* La referencia al reloj global
+* El quantum del CPU
+* Una variable booleana que indica si se necesita hacer rescheduling
+* Una referencia al HashMap que representa los dispositivos de E/S, donde la clave es el id del dispositivo y el valor es una lista enlazada de `Task`
+
+Además contiene las funciones para realizar el scheduling y levantar y dormir procesos.
 
 ## Pruebas
 
