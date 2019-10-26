@@ -12,7 +12,7 @@ Este proyecto consistió en realizar una aproximación a la implementación del 
 
 ## Idea
 
-La idea para la implementación consiste en una serie de hilos que ejecutan una simulación de las funciones de programación de tareas del CPU, sincronizados mediante un reloj global correspondiente a la clase `Clock`. Las tareas o tasks se inicializan de un archivo en formato json, que se leen con un parser y son cargados por un hilo a la tabla de procesos, identificada por la clase `ProcessTable`, a la cual accederán los hilos CPU en el caso de que necesiten información sobre los procesos, además de acceder al árbol de cada CPU para añadir los nuevos procesos. Por su parte cada CPU lleva un árbol rojo-negro y una estructura `Runqueue` con la información de los procesos y que maneja la parte de agregar, terminar, dormir y despertar tareas, simular cambios de contexto y hacer cálculos de la carga del CPU para el balanceo de cargas entre CPU. La clase `Runqueue` hace uso de la estructura `PrioArray`, que consiste nuestra adaptación de la lista de prioridad del kernel de Linux para scheduling. Ésta contiene un arreglo de 140 listas enlazadas, una por cada prioridad, así como un bitmap que indica si la lista está vacía o no.
+La idea para la implementación consiste en una serie de hilos que ejecutan una simulación de las funciones de programación de tareas del CPU, sincronizados mediante un reloj global correspondiente a la clase `Clock`. Las tareas o estructuras `Task` se inicializan de un archivo en formato json, que se leen con un parser y son cargados por un hilo a la tabla de procesos, identificada por la clase `ProcessTable`, a la cual accederán los hilos CPU en el caso de que necesiten información sobre los procesos, además de acceder al árbol de cada CPU para añadir los nuevos procesos. Por su parte cada CPU lleva un árbol rojo-negro y una estructura `Runqueue` con la información de los procesos y que maneja la parte de agregar, terminar, dormir y despertar tareas, simular cambios de contexto y hacer cálculos de la carga del CPU para el balanceo de cargas entre CPUs. La clase `Runqueue` hace uso de la estructura `PrioArray`, que consiste nuestra adaptación de la lista de prioridad del kernel de Linux para scheduling.
 
 En cuanto al balanceo de cargas, la clase `Runqueue` posee una lista enlazada destinada a este balanceo, el cual se realiza de acuerdo a la carga de los distintos CPU. La idea es que un hilo monitoree las cargas de los CPU y realice las llamadas a las funciones pertinentes, de manera que el CPU pueda desencolar los procesos que se migrarán.
 
@@ -70,7 +70,12 @@ Además contiene las funciones para realizar el scheduling y levantar y dormir p
 
 ### Clase `RbTree`
 
-Implementa un árbol rojo-negro donde
+Implementa un árbol rojo-negro donde los nodos representan a los procesos y poseen los siguientes atributos:
+
+* PID del proceso
+* Prioridad del proceso
+
+La clave del nodo para su inserción en el árbol es la prioridad.
 
 ### Clase `Clock`
 
