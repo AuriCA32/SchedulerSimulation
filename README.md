@@ -84,9 +84,3 @@ Consiste en un contador que se aumenta de acuerdo a un parámetro de entrada `ti
 ## Pruebas
 
 Las pruebas se pueden ejecutar escribiendo el comando `make` en la terminal desde la carpeta del proyecto. Las pruebas actuales corresponden a la funcionalidad de `Runqueue` y `PrioArray`, sin embargo al descomentar las líneas de código del archivo `Test.java` se ejecutan las pruebas de las funcionalidades desarrolladas hasta el momento.
-
-## Sobre la Interfaz
-
-
-## Conclusiones 
-
